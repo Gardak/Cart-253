@@ -15,6 +15,9 @@ let squareX;
 let squareY;
 let squareSize = 100;
 
+// The current position  of the triangles
+let triangleX = -80;
+let triangleY = 320;
 
 // preload()
 //
@@ -42,6 +45,7 @@ function setup() {
   // We divide the size by two because we're drawing from the center
   squareX = width + squareSize/2;
   squareY = height + squareSize/2;
+
 
   // We'll draw rectangles from the center
   rectMode(CENTER);
@@ -73,4 +77,11 @@ function draw() {
   fill(0,0,255,10);
   // Display the square
   rect(squareX,squareY,squareSize,squareSize);
+
+  // Move the triangle to the right
+  triangleX += 1;
+  // Make the triangle transparent green
+  fill(0,255,0,10);
+  // Display the triangle
+  triangle(triangleX+80,triangleY,triangleX,triangleY-50,triangleX,triangleY+50);
 }
