@@ -34,6 +34,10 @@ let dodges = 0;
 let textX = 450;
 let textY = 50;
 
+// The difficulty ladder
+let enemySpeedUp = 1;
+let enemySizeUp = 5;
+
 // setup()
 //
 // Make the canvas, position the avatar and anemy
@@ -114,6 +118,10 @@ function draw() {
     avatarY = height/2;
     // Reset the dodge counter
     dodges = 0;
+    // Reset the enemy size and speed
+    enemySize = 50;
+    enemySpeed = 5;
+    enemyVX = 5;
   }
 
   // Check if the avatar has gone off the screen (cheating!)
@@ -133,6 +141,9 @@ function draw() {
     dodges = dodges + 1;
     // Tell them how many dodges they have made
     console.log(dodges + " DODGES!");
+    // Make the enemy faster and bigger
+    enemySize += enemySizeUp;
+    enemySpeed += enemySpeedUp;
     // Reset the enemy's position to the left at a random height
     enemyX = 0;
     enemyY = random(0,height);
@@ -143,7 +154,7 @@ function draw() {
 
   // Display the number of successful dodges on the Game
   fill(0,0,255);
-  text(dodges,textX,textY)
+  text(dodges,textX,textY);
 
   // The player is black
   fill(0);
