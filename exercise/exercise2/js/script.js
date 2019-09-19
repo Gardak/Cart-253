@@ -126,6 +126,8 @@ function draw() {
     enemySize = 50;
     enemySpeed = 5;
     enemyVX = 5;
+    // Reset the avatar speed
+    avatarSpeed = 10;
   }
 
   // Check if the avatar has gone off the screen (cheating!)
@@ -151,6 +153,10 @@ function draw() {
     // Reset the enemy's position to the left at a random height
     enemyX = 0;
     enemyY = random(0,height);
+    // Increase the speed of the avatar each 5 dodges
+    if (dodges%5 === 0) {
+      avatarSpeed += 3;
+    }
   }
 
   // Display the number of successful dodges in the console
@@ -160,15 +166,15 @@ function draw() {
   fill(210);
   text(dodges,textX,textY);
 
-  // The player is beige with a metal helmet
+  // The avatar is beige with a metal helmet
   fill(100);
   stroke(250,218,145);
   strokeWeight(5);
-  // Draw the player as a circle
+  // Draw the avatar as a circle
   ellipse(avatarX,avatarY,avatarSize,avatarSize);
 
 
-  // The enemy is green
+  // The enemy is red
   noStroke();
   fill(168,35,48);
   // Draw the enemy as a circle
