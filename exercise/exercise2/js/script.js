@@ -1,7 +1,8 @@
 /******************************************************
 
 Game - The Artful Dodger
-Pippin Barr
+Professor: Pippin Barr
+Student: Alex Lorrain
 
 A simple dodging game with keyboard controls
 
@@ -29,6 +30,10 @@ let enemyVX = 5;
 // How many dodges the player has made
 let dodges = 0;
 
+// The position of the dodge counter
+let textX = 450;
+let textY = 50;
+
 // setup()
 //
 // Make the canvas, position the avatar and anemy
@@ -46,6 +51,12 @@ function setup() {
 
   // No stroke so it looks cleaner
   noStroke();
+
+  // Setup the typography of the dodge counter
+  fill(0,0,255);
+  textSize(48);
+  textFont('helvetica');
+
 }
 
 // draw()
@@ -129,6 +140,10 @@ function draw() {
 
   // Display the number of successful dodges in the console
   console.log(dodges);
+
+  // Display the number of successful dodges on the Game
+  fill(0,0,255);
+  text(dodges,textX,textY)
 
   // The player is black
   fill(0);
