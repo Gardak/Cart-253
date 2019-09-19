@@ -38,6 +38,11 @@ let textY = 50;
 let enemySpeedUp = 1;
 let enemySizeUp = 5;
 
+// Import the background image
+function preload() {
+  field = loadImage('assets/images/field.jpg');
+}
+
 // setup()
 //
 // Make the canvas, position the avatar and anemy
@@ -57,7 +62,6 @@ function setup() {
   noStroke();
 
   // Setup the typography of the dodge counter
-  fill(0,0,255);
   textSize(48);
   textFont('helvetica');
 
@@ -68,8 +72,8 @@ function setup() {
 // Handle moving the avatar and enemy and checking for dodges and
 // game over situations.
 function draw() {
-  // A pink background
-  background(255,220,220);
+  // Put the field as background
+  image(field,0,0)
 
   // Default the avatar's velocity to 0 in case no key is pressed this frame
   avatarVX = 0;
@@ -153,16 +157,20 @@ function draw() {
   console.log(dodges);
 
   // Display the number of successful dodges on the Game
-  fill(0,0,255);
+  fill(210);
   text(dodges,textX,textY);
 
-  // The player is black
-  fill(0);
+  // The player is beige with a metal helmet
+  fill(100);
+  stroke(250,218,145);
+  strokeWeight(5);
   // Draw the player as a circle
   ellipse(avatarX,avatarY,avatarSize,avatarSize);
 
-  // The enemy is red
-  fill(255,0,0);
+
+  // The enemy is green
+  noStroke();
+  fill(168,35,48);
   // Draw the enemy as a circle
   ellipse(enemyX,enemyY,enemySize,enemySize);
 
