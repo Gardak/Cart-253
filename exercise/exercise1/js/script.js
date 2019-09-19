@@ -1,9 +1,6 @@
 // Exercise 1 - Movement
-// Pippin Barr
+// Alex Lorrain
 //
-// Starter code for exercise 1.
-// Draws a moving square and circle that intersect
-// in the middle of the canvas.
 
 // The current position and size of the circle
 let circleX;
