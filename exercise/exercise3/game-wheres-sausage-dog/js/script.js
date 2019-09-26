@@ -37,6 +37,10 @@ let numDecoys = 100;
 // Keep track of whether they've won
 let gameOver = false;
 
+// The size and speed of the target at the end
+let targetVx = 3;
+let targetVy = 3;
+
 // preload()
 //
 // Loads the target and decoy images before the program starts
@@ -116,8 +120,7 @@ function setup() {
 
   // Show what animal the player is looking for
   fill(33, 143, 64);
-  rectMode(CENTER);
-  rect(75,75,150,150);
+  rect(0,0,150,150);
   image(targetImage,75,75);
 
   textFont("Helvetica");
@@ -141,7 +144,7 @@ function draw() {
     textSize(128);
     textAlign(CENTER,CENTER);
     noStroke();
-    fill(random(255));
+    fill(random(255),random(255),random(255));
 
     // Tell them they won!
     text("YOU WINNED!",width/2,height/2);
@@ -149,9 +152,28 @@ function draw() {
     // Draw a circle around the sausage dog to show where it is (even though
     // they already know because they found it!)
     noFill();
-    stroke(random(255));
+    stroke(random(255),random(255),random(255));
     strokeWeight(10);
     ellipse(targetX,targetY,targetImage.width,targetImage.height);
+
+    // Move the dog around
+    image(targetImage, targetX, targetY);
+    targetX += targetVx;
+    targetY += targetVy;
+
+    // Make it bounce on the sides
+    if (targetX <= 0){
+      targetVx = -targetVx;
+    }
+    else if (targetX >= width){
+      targetVx = -targetVx;
+    }
+    else if (targetY <= 0) {
+      targetVy = -targetVy;
+    }
+    else if (targetY >= height) {
+      targetVy = -targetVy
+    }
   }
 }
 
