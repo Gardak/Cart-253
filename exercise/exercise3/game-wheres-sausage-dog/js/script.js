@@ -115,10 +115,18 @@ function setup() {
   image(targetImage,targetX,targetY);
 
   // Show what animal the player is looking for
-  fill(33, 143, 64)
-  rectMode(CENTER)
-  rect(75,75,150,150)
-  image(targetImage,75,75)
+  fill(33, 143, 64);
+  rectMode(CENTER);
+  rect(75,75,150,150);
+  image(targetImage,75,75);
+
+  textFont("Helvetica");
+  textSize(25);
+  textAlign(CENTER,CENTER);
+  fill(255);
+
+  // Tell them what to find
+  text("Find me!",75,135);
 
 }
 
@@ -130,7 +138,6 @@ function setup() {
 function draw() {
   if (gameOver) {
     // Prepare our typography
-    textFont("Helvetica");
     textSize(128);
     textAlign(CENTER,CENTER);
     noStroke();
