@@ -30,6 +30,9 @@ let decoyImage8;
 let decoyImage9;
 let decoyImage10;
 
+// The size of the images
+let imageSize = 128;
+
 // The number of decoys to show on the screen, randomly
 // chosen from the decoy images
 let numDecoys = 100;
@@ -37,7 +40,7 @@ let numDecoys = 100;
 // Keep track of whether they've won
 let gameOver = false;
 
-// The size and speed of the target at the end
+// Speed of the target at the end
 let targetVx = 3;
 let targetVy = 3;
 
@@ -57,6 +60,9 @@ function preload() {
   decoyImage8 = loadImage("assets/images/animals-08.png");
   decoyImage9 = loadImage("assets/images/animals-09.png");
   decoyImage10 = loadImage("assets/images/animals-10.png");
+
+
+
 }
 
 // setup()
@@ -130,7 +136,6 @@ function setup() {
 
   // Tell them what to find
   text("Find me!",75,135);
-
 }
 
 
@@ -147,7 +152,9 @@ function draw() {
     fill(random(255),random(255),random(255));
 
     // Tell them they won!
-    text("YOU WINNED!",width/2,height/2);
+    text("YOU FOUND ME!",width/2,height/2);
+    textSize(40);
+    text("Press any key to restart",width/2,height/2 + 55);
 
     // Draw a circle around the sausage dog to show where it is (even though
     // they already know because they found it!)
@@ -174,6 +181,10 @@ function draw() {
     else if (targetY >= height) {
       targetVy = -targetVy
     }
+
+    // Increase the difficulty
+    imageSize -=10;
+    numDecoys += 2;
   }
 }
 
@@ -192,6 +203,68 @@ function mousePressed() {
       gameOver = true;
     }
   }
+}
+function keyPressed() {
+  // Reset the game when the player press TAB
 
+  // Reset the state of the game
+  gameOver = false;
 
+  // Remake the board of a different color
+  background(random(255),random(255),random(255));
+
+  // Use a for loop to draw as many decoys as we need
+  for (let i = 0; i < numDecoys; i++) {
+    // Choose a random location on the canvas for this decoy
+    let x = random(0,width);
+    let y = random(0,height);
+    // Generate a random number we can use for probability
+    let r = random();
+    // Use the random number to display one of the ten decoy
+    // images, each with a 10% chance of being shown
+    // We'll talk more about this nice quality of random soon enough.
+    // But basically each "if" and "else if" has a 10% chance of being true
+    if (r < 0.1) {
+      image(decoyImage1,x,y);
+    }
+    else if (r < 0.2) {
+      image(decoyImage2,x,y);
+    }
+    else if (r < 0.3) {
+      image(decoyImage3,x,y);
+    }
+    else if (r < 0.4) {
+      image(decoyImage4,x,y);
+    }
+    else if (r < 0.5) {
+      image(decoyImage5,x,y);
+    }
+    else if (r < 0.6) {
+      image(decoyImage6,x,y);
+    }
+    else if (r < 0.7) {
+      image(decoyImage7,x,y);
+    }
+    else if (r < 0.8) {
+      image(decoyImage8,x,y);
+    }
+    else if (r < 0.9) {
+      image(decoyImage9,x,y);
+    }
+    else if (r < 1.0) {
+      image(decoyImage10,x,y);
+    }
+
+  }
+  // Show what animal the player is looking for
+  fill(33, 143, 64);
+  rect(0,0,150,150);
+  image(targetImage,75,75);
+
+  // Once we've displayed all decoys, we choose a random location for the target
+  targetX = random(0,width);
+  targetY = random(0,height);
+
+  // And draw it (because it's the last thing drawn, it will always be on top)
+  image(targetImage,targetX,targetY);
 }
