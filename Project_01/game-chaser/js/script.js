@@ -25,6 +25,8 @@ let playerRadius = 25;
 let playerVX = 0;
 let playerVY = 0;
 let playerMaxSpeed = 2;
+let playerSprint = 2;
+let sprintDmg = 3
 // Player health
 let playerHealth;
 let playerMaxHealth = 255;
@@ -119,9 +121,17 @@ function handleInput() {
   // Check for horizontal movement
   if (keyIsDown(LEFT_ARROW)) {
     playerVX = -playerMaxSpeed;
+    if (keyIsDown(16)) {
+      playerVX = -playerMaxSpeed * playerSprint;
+      playerHealth -= sprintDmg;
+    }
   }
   else if (keyIsDown(RIGHT_ARROW)) {
     playerVX = playerMaxSpeed;
+    if (keyIsDown(16)) {
+      playerVX = playerMaxSpeed * playerSprint;
+      playerHealth -= sprintDmg;
+    }
   }
   else {
     playerVX = 0;
@@ -130,9 +140,17 @@ function handleInput() {
   // Check for vertical movement
   if (keyIsDown(UP_ARROW)) {
     playerVY = -playerMaxSpeed;
+    if (keyIsDown(16)) {
+      playerVY = -playerMaxSpeed * playerSprint;
+      playerHealth -= sprintDmg;
+    }
   }
   else if (keyIsDown(DOWN_ARROW)) {
     playerVY = playerMaxSpeed;
+    if (keyIsDown(16)) {
+      playerVY = playerMaxSpeed * playerSprint;
+      playerHealth -= sprintDmg;
+    }
   }
   else {
     playerVY = 0;
