@@ -93,16 +93,19 @@ function draw() {
   background(100, 100, 200);
 
   if (!gameOver) {
+
     handleInput();
 
     movePlayer();
     movePrey();
 
-    updateHealth();
     checkEating();
+    updateHealth();
+
 
     drawPrey();
     drawPlayer();
+
   }
   else {
     showGameOver();
@@ -134,6 +137,7 @@ function handleInput() {
   else {
     playerVY = 0;
   }
+
 }
 
 // movePlayer()
@@ -197,17 +201,6 @@ function checkEating() {
     preyHealth = preyHealth - eatHealth;
     // Constrain to the possible range
     preyHealth = constrain(preyHealth, 0, preyMaxHealth);
-
-    // Check if the prey died (health 0)
-    if (preyHealth === 0) {
-      // Move the "new" prey to a random position
-      preyX = random(0, width);
-      preyY = random(0, height);
-      // Give it full health
-      preyHealth = preyMaxHealth;
-      // Track how many prey were eaten
-      preyEaten = preyEaten + 1;
-    }
   }
 }
 
@@ -215,22 +208,13 @@ function checkEating() {
 //
 // Moves the prey based on random velocity changes
 function movePrey() {
-  // Change the prey's velocity at random intervals
-  // random() will be < 0.05 5% of the time, so the prey
-  // will change direction on 5% of frames
-  if (random() < 0.05) {
-    // Set velocity based on random values to get a new direction
-    // and speed of movement
-    //
-    // Use map() to convert from the 0-1 range of the random() function
-    // to the appropriate range of velocities for the prey
-    preyVX = map(random(), 0, 1, -preyMaxSpeed, preyMaxSpeed);
-    preyVY = map(random(), 0, 1, -preyMaxSpeed, preyMaxSpeed);
-  }
 
   // Update prey position based on velocity
-  preyX = preyX + preyVX;
-  preyY = preyY + preyVY;
+  preyX = width * noise(preyVX);
+  preyY = height * noise(preyVY);
+  //Update prey velocity
+  preyVX += 0.02;
+  preyVY += 0.01;
 
   // Screen wrapping
   if (preyX < 0) {
@@ -245,6 +229,16 @@ function movePrey() {
   }
   else if (preyY > height) {
     preyY = preyY - height;
+  }
+  // Check if the prey died (health 0)
+  if (preyHealth === 0) {
+    // Move the "new" prey to a random position
+    preyVX = random(0, width);
+    preyVY = random(0, height);
+    // Give it full health
+    preyHealth = preyMaxHealth;
+    // Track how many prey were eaten
+    preyEaten = preyEaten + 1;
   }
 }
 

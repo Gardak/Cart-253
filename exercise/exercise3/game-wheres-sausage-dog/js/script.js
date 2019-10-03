@@ -148,11 +148,11 @@ function draw() {
     // Prepare our typography
     textSize(128);
     textAlign(CENTER,CENTER);
-    noStroke();
+    stroke(0);
     fill(random(255),random(255),random(255));
 
     // Tell them they won!
-    text("YOU FOUND ME!",width/2,height/2);
+    text("HOW COULD YOU!",width/2,height/2);
     textSize(40);
     text("Press any key to restart",width/2,height/2 + 55);
 
@@ -164,27 +164,31 @@ function draw() {
     ellipse(targetX,targetY,targetImage.width,targetImage.height);
 
     // Move the dog around
-    image(targetImage, targetX, targetY);
-    targetX += targetVx;
-    targetY += targetVy;
 
-    // Make it bounce on the sides
-    if (targetX <= 0){
-      targetVx = -targetVx;
+    targetX = width * noise(targetVx);
+    targetY = height * noise(targetVy);
+    image(targetImage, targetX, targetY);
+    targetVx += 0.02;
+    targetVy += 0.01;
+
+
+    // Make it loop on the sides
+    if (targetX < 0){
+      targetX = targetX + width;
     }
-    else if (targetX >= width){
-      targetVx = -targetVx;
+    else if (targetX > width){
+      targetX = targetX - width;
     }
-    else if (targetY <= 0) {
-      targetVy = -targetVy;
+    else if (targetY < 0) {
+      targetY = targetY + height;
     }
     else if (targetY >= height) {
-      targetVy = -targetVy
+      targetY = targetY - height;
     }
 
     // Increase the difficulty
     imageSize -=10;
-    numDecoys += 2;
+    numDecoys += 1;
   }
 }
 
