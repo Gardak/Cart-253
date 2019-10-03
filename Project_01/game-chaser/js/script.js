@@ -25,8 +25,8 @@ let playerRadius = 25;
 let playerVX = 0;
 let playerVY = 0;
 let playerMaxSpeed = 2;
-let playerSprint = 2;
-let sprintDmg = 3
+let playerSprint = 8;
+let sprintDmg = 3;
 // Player health
 let playerHealth;
 let playerMaxHealth = 255;
@@ -39,7 +39,7 @@ let preyY;
 let preyRadius = 25;
 let preyVX;
 let preyVY;
-let preyMaxSpeed = 4;
+let preyMaxSpeed = 6;
 // Prey health
 let preyHealth;
 let preyMaxHealth = 100;
@@ -50,6 +50,10 @@ let preyFill = 200;
 let eatHealth = 10;
 // Number of prey eaten during the game (the "score")
 let preyEaten = 0;
+
+// Values for the prey movement
+let nX = 0;
+let nY = 0;
 
 // setup()
 //
@@ -121,17 +125,9 @@ function handleInput() {
   // Check for horizontal movement
   if (keyIsDown(LEFT_ARROW)) {
     playerVX = -playerMaxSpeed;
-    if (keyIsDown(16)) {
-      playerVX = -playerMaxSpeed * playerSprint;
-      playerHealth -= sprintDmg;
-    }
   }
   else if (keyIsDown(RIGHT_ARROW)) {
     playerVX = playerMaxSpeed;
-    if (keyIsDown(16)) {
-      playerVX = playerMaxSpeed * playerSprint;
-      playerHealth -= sprintDmg;
-    }
   }
   else {
     playerVX = 0;
@@ -140,22 +136,20 @@ function handleInput() {
   // Check for vertical movement
   if (keyIsDown(UP_ARROW)) {
     playerVY = -playerMaxSpeed;
-    if (keyIsDown(16)) {
-      playerVY = -playerMaxSpeed * playerSprint;
-      playerHealth -= sprintDmg;
-    }
   }
   else if (keyIsDown(DOWN_ARROW)) {
     playerVY = playerMaxSpeed;
-    if (keyIsDown(16)) {
-      playerVY = playerMaxSpeed * playerSprint;
-      playerHealth -= sprintDmg;
-    }
   }
   else {
     playerVY = 0;
   }
-
+  if (keyIsDown(16)) {
+    playerMaxSpeed = playerSprint;
+    playerMaxHealth -= sprintDmg;
+  }
+  else {
+    playerMaxSpeed = 2;
+  }
 }
 
 // movePlayer()
@@ -223,8 +217,8 @@ function checkEating() {
   // Check if the prey died (health 0)
   if (preyHealth === 0) {
     // Move the "new" prey to a random position
-    preyVX = random(0, width);
-    preyVY = random(0, height);
+    preyX = random(0, width);
+    preyY = random(0, height);
     // Give it full health
     preyHealth = preyMaxHealth;
     // Track how many prey were eaten
@@ -232,8 +226,10 @@ function checkEating() {
 
     // Increse the difficulty
     // Player size increase and speed decrease
-    playerRadius += 3;
-    playerMaxSpeed = playerMaxSpeed * 0.9;
+    playerRadius += 2;
+    playerMaxSpeed = playerMaxSpeed * 0.95;
+    // Increase the prey health
+    preyMaxHealth += 10;
     }
 }
 
@@ -243,11 +239,14 @@ function checkEating() {
 function movePrey() {
 
   // Update prey position based on velocity
-  preyX = width * noise(preyVX);
-  preyY = height * noise(preyVY);
+  preyVX = map(noise(nX),0,1,-preyMaxSpeed,preyMaxSpeed);
+  preyVY = map(noise(nY),0,1,-preyMaxSpeed,preyMaxSpeed);
   //Update prey velocity
-  preyVX += 0.02;
-  preyVY += 0.01;
+  preyX += preyVX;
+  preyY += preyVY;
+
+  nX += 0.035;
+  nY += 0.015;
 
   // Screen wrapping
   if (preyX < 0) {
