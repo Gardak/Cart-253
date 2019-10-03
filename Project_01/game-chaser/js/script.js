@@ -220,6 +220,21 @@ function checkEating() {
     // Constrain to the possible range
     preyHealth = constrain(preyHealth, 0, preyMaxHealth);
   }
+  // Check if the prey died (health 0)
+  if (preyHealth === 0) {
+    // Move the "new" prey to a random position
+    preyVX = random(0, width);
+    preyVY = random(0, height);
+    // Give it full health
+    preyHealth = preyMaxHealth;
+    // Track how many prey were eaten
+    preyEaten = preyEaten + 1;
+
+    // Increse the difficulty
+    // Player size increase and speed decrease
+    playerRadius += 3;
+    playerMaxSpeed = playerMaxSpeed * 0.9;
+    }
 }
 
 // movePrey()
@@ -247,16 +262,6 @@ function movePrey() {
   }
   else if (preyY > height) {
     preyY = preyY - height;
-  }
-  // Check if the prey died (health 0)
-  if (preyHealth === 0) {
-    // Move the "new" prey to a random position
-    preyVX = random(0, width);
-    preyVY = random(0, height);
-    // Give it full health
-    preyHealth = preyMaxHealth;
-    // Track how many prey were eaten
-    preyEaten = preyEaten + 1;
   }
 }
 
