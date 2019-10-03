@@ -32,6 +32,7 @@ let playerHealth;
 let playerMaxHealth = 255;
 // Player fill color
 let playerFill = 50;
+let police;
 
 // Prey position, size, velocity
 let preyX;
@@ -45,6 +46,7 @@ let preyHealth;
 let preyMaxHealth = 100;
 // Prey fill color
 let preyFill = 200;
+let thief;
 
 // Amount of health obtained per frame of "eating" (overlapping) the prey
 let eatHealth = 10;
@@ -66,6 +68,10 @@ function setup() {
   // We're using simple functions to separate code out
   setupPrey();
   setupPlayer();
+
+  imageMode(CENTER)
+  thief = loadImage('assets/images/thief.png')
+  police = loadImage('assets/images/police.png')
 }
 
 // setupPrey()
@@ -269,7 +275,7 @@ function movePrey() {
 // Draw the prey as an ellipse with alpha based on health
 function drawPrey() {
   fill(preyFill, preyHealth);
-  ellipse(preyX, preyY, preyRadius * 2);
+  image(thief,preyX,preyY,preyRadius,preyRadius);
 }
 
 // drawPlayer()
@@ -277,7 +283,7 @@ function drawPrey() {
 // Draw the player as an ellipse with alpha value based on health
 function drawPlayer() {
   fill(playerFill, playerHealth);
-  ellipse(playerX, playerY, playerRadius * 2);
+  image(police, playerX, playerY, playerRadius ,playerRadius);
 }
 
 // showGameOver()
