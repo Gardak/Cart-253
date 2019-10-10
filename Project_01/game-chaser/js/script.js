@@ -16,28 +16,30 @@ random movement, screen wrap.
 ******************************************************/
 
 // Track whether the game is over
-let gameOver = false;
+let gameState = "INTRO";
 
 // Player position, size, velocity
 let playerX;
 let playerY;
-let playerRadius = 25;
+let playerRadius = 50;
 let playerVX = 0;
 let playerVY = 0;
-let playerMaxSpeed = 2;
+let playerMaxSpeed = 4;
 let playerSprint = 8;
-let sprintDmg = 3;
+let sprintDmg = 2;
 // Player health
 let playerHealth;
 let playerMaxHealth = 255;
 // Player fill color
 let playerFill = 50;
-let police;
+let player;
+let healthBar = 0;
+let healthFill = 0;
 
 // Prey position, size, velocity
 let preyX;
 let preyY;
-let preyRadius = 25;
+let preyRadius = 40;
 let preyVX;
 let preyVY;
 let preyMaxSpeed = 6;
@@ -46,12 +48,14 @@ let preyHealth;
 let preyMaxHealth = 100;
 // Prey fill color
 let preyFill = 200;
-let thief;
+let prey;
 
 // Amount of health obtained per frame of "eating" (overlapping) the prey
 let eatHealth = 10;
 // Number of prey eaten during the game (the "score")
 let preyEaten = 0;
+
+let music;
 
 // Values for the prey movement
 let nX = 0;
@@ -69,9 +73,13 @@ function setup() {
   setupPrey();
   setupPlayer();
 
+  // Setup the music
+  music = loadSound("assets/sounds/epic.mp3")
+
   imageMode(CENTER)
-  thief = loadImage('assets/images/thief.png')
-  police = loadImage('assets/images/police.png')
+  prey = loadImage('assets/images/x-wing.png')
+  player = loadImage('assets/images/star-destroyer.png')
+  background = loadImage('assets/images/death-star.jpg')
 }
 
 // setupPrey()
@@ -102,11 +110,21 @@ function setupPlayer() {
 // displays the two agents.
 // When the game is over, shows the game over screen.
 function draw() {
-  background(100, 100, 200);
+  // Setup background
+  image(background, width / 2, height / 2)
+  handleInput();
+  if (gameState === "INTRO") {
+    // Set up the font
+    textSize(38);
+    textAlign(CENTER, CENTER);
+    strokeWeight(3);
+    stroke(0);
+    fill(200,70,30);
+    // Introduce the game
+    text('Capture the fleeting rebels!\n\nClick the mouse to start', width / 2, height / 2)
 
-  if (!gameOver) {
+  } else if (gameState === "GAME") {
 
-    handleInput();
 
     movePlayer();
     movePrey();
@@ -117,10 +135,10 @@ function draw() {
 
     drawPrey();
     drawPlayer();
-
-  }
-  else {
+  } else if (gameState === "GAMEOVER") {
     showGameOver();
+    setupPrey();
+    setupPlayer();
   }
 }
 
@@ -131,30 +149,25 @@ function handleInput() {
   // Check for horizontal movement
   if (keyIsDown(LEFT_ARROW)) {
     playerVX = -playerMaxSpeed;
-  }
-  else if (keyIsDown(RIGHT_ARROW)) {
+  } else if (keyIsDown(RIGHT_ARROW)) {
     playerVX = playerMaxSpeed;
-  }
-  else {
+  } else {
     playerVX = 0;
   }
 
   // Check for vertical movement
   if (keyIsDown(UP_ARROW)) {
     playerVY = -playerMaxSpeed;
-  }
-  else if (keyIsDown(DOWN_ARROW)) {
+  } else if (keyIsDown(DOWN_ARROW)) {
     playerVY = playerMaxSpeed;
-  }
-  else {
+  } else {
     playerVY = 0;
   }
   if (keyIsDown(16)) {
     playerMaxSpeed = playerSprint;
     playerMaxHealth -= sprintDmg;
-  }
-  else {
-    playerMaxSpeed = 2;
+  } else {
+    playerMaxSpeed = 4;
   }
 }
 
@@ -171,8 +184,7 @@ function movePlayer() {
   if (playerX < 0) {
     // Off the left side, so add the width to reset to the right
     playerX = playerX + width;
-  }
-  else if (playerX > width) {
+  } else if (playerX > width) {
     // Off the right side, so subtract the width to reset to the left
     playerX = playerX - width;
   }
@@ -180,8 +192,7 @@ function movePlayer() {
   if (playerY < 0) {
     // Off the top, so add the height to reset to the bottom
     playerY = playerY + height;
-  }
-  else if (playerY > height) {
+  } else if (playerY > height) {
     // Off the bottom, so subtract the height to reset to the top
     playerY = playerY - height;
   }
@@ -199,7 +210,7 @@ function updateHealth() {
   // Check if the player is dead (0 health)
   if (playerHealth === 0) {
     // If so, the game is over
-    gameOver = true;
+    gameState = "GAMEOVER";
   }
 }
 
@@ -236,7 +247,7 @@ function checkEating() {
     playerMaxSpeed = playerMaxSpeed * 0.95;
     // Increase the prey health
     preyMaxHealth += 10;
-    }
+  }
 }
 
 // movePrey()
@@ -245,8 +256,8 @@ function checkEating() {
 function movePrey() {
 
   // Update prey position based on velocity
-  preyVX = map(noise(nX),0,1,-preyMaxSpeed,preyMaxSpeed);
-  preyVY = map(noise(nY),0,1,-preyMaxSpeed,preyMaxSpeed);
+  preyVX = map(noise(nX), 0, 1, -preyMaxSpeed, preyMaxSpeed);
+  preyVY = map(noise(nY), 0, 1, -preyMaxSpeed, preyMaxSpeed);
   //Update prey velocity
   preyX += preyVX;
   preyY += preyVY;
@@ -257,47 +268,62 @@ function movePrey() {
   // Screen wrapping
   if (preyX < 0) {
     preyX = preyX + width;
-  }
-  else if (preyX > width) {
+  } else if (preyX > width) {
     preyX = preyX - width;
   }
 
   if (preyY < 0) {
     preyY = preyY + height;
-  }
-  else if (preyY > height) {
+  } else if (preyY > height) {
     preyY = preyY - height;
   }
+}
+
+function mousePressed() {
+  if (gameState === "INTRO") {
+    gameState = "GAME";
+    music.loop();
+  } else if (gameState === "GAME") {
+    gameState = "GAMEOVER";
+  } else if (gameState === "GAMEOVER") {
+    gameState = "INTRO";
+  }
+
 }
 
 // drawPrey()
 //
 // Draw the prey as an ellipse with alpha based on health
 function drawPrey() {
+  push();
   fill(preyFill, preyHealth);
-  image(thief,preyX,preyY,preyRadius,preyRadius);
+  image(prey, preyX, preyY, preyRadius, preyRadius);
+  pop();
 }
 
 // drawPlayer()
 //
-// Draw the player as an ellipse with alpha value based on health
+// Draw the player and his health bar
 function drawPlayer() {
   fill(playerFill, playerHealth);
-  image(police, playerX, playerY, playerRadius ,playerRadius);
+  image(player, playerX, playerY, playerRadius * 2.2, playerRadius);
+  healthBar = map(playerHealth, 0, 255, 0, width);
+  healthFill = map(playerHealth, 0, 255, 255, 0);
+  push();
+  fill(healthFill, 100, 30);
+  rectMode(CENTER, CENTER);
+  rect(width / 2, height - 20, healthBar, 20);
+  pop();
 }
 
 // showGameOver()
 //
 // Display text about the game being over!
 function showGameOver() {
-  // Set up the font
-  textSize(32);
-  textAlign(CENTER, CENTER);
-  fill(0);
   // Set up the text to display
   let gameOverText = "GAME OVER\n"; // \n means "new line"
-  gameOverText = gameOverText + "You ate " + preyEaten + " prey\n";
-  gameOverText = gameOverText + "before you died."
+  gameOverText = gameOverText + "You captured " + preyEaten + " rebels\n";
+  gameOverText = gameOverText + "before you died.\nVader will not be happy"
   // Display it in the centre of the screen
   text(gameOverText, width / 2, height / 2);
 }
