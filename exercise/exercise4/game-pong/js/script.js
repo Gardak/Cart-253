@@ -47,7 +47,6 @@ let leftPaddle = {
   score: 0
 }
 
-let angle = 0;
 // RIGHT PADDLE
 
 // Basic definition of a left paddle object with its key properties of
@@ -66,6 +65,10 @@ let rightPaddle = {
 
 // A variable to hold the beep sound we will play on bouncing
 let beepSFX;
+// A variable to turn the ball
+let angle = 0;
+// Know wich side to throw the ball
+let sideStart;
 
 // preload()
 //
@@ -192,10 +195,12 @@ function ballIsOutOfBounds() {
   // Check for ball going off the sides
   if (ball.x < 0) {
     rightPaddle.score += 1;
+    sideStart = "right";
     return(true);
   }
   else if (ball.x > width) {
     leftPaddle.score += 1;
+    sideStart = "left";
     return(true);
   }
 }
@@ -287,8 +292,12 @@ function resetBall() {
   // Initialise the ball's position and velocity
   ball.x = width / 2;
   ball.y = height / 2;
-  ball.vx = ball.speed;
-  ball.vy = ball.speed;
+  ball.vy = random(4,8);
+  if (sideStart === "right")
+    ball.vx = abs(ball.speed);
+  else {
+    ball.vx = -5;
+  }
 }
 
 // displayStartMessage()
