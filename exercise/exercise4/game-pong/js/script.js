@@ -15,6 +15,7 @@ let playing = false;
 
 // Game colors (using hexadecimal)
 let bgColor = 0;
+let rectFill = 0;
 let fgColor = 255;
 
 // BALL
@@ -46,6 +47,7 @@ let leftPaddle = {
   score: 0
 }
 
+let angle = 0;
 // RIGHT PADDLE
 
 // Basic definition of a left paddle object with its key properties of
@@ -140,7 +142,7 @@ function draw() {
   displayPaddle(leftPaddle);
   displayPaddle(rightPaddle);
   displayBall();
-  displayScore()
+  // displayScore();
 }
 
 // handleInput()
@@ -189,11 +191,11 @@ function updateBall() {
 function ballIsOutOfBounds() {
   // Check for ball going off the sides
   if (ball.x < 0) {
-    leftPaddle.score += 1;
+    rightPaddle.score += 1;
     return(true);
   }
   else if (ball.x > width) {
-    rightPaddle.score += 1;
+    leftPaddle.score += 1;
     return(true);
   }
 }
@@ -251,7 +253,17 @@ function checkBallPaddleCollision(paddle) {
 // Draws the specified paddle
 function displayPaddle(paddle) {
   // Draw the paddles
-  rect(paddle.x, paddle.y, paddle.w, paddle.h);
+  push();
+  if (paddle.score <= 4) {
+    rectFill = map(paddle.score,0,4,10,200);
+    fill ( rectFill, 180, 20);
+  }
+  else if (paddle.score > 4) {
+    rectFill = map(paddle.score,5,10,200,20);
+    fill ( 180, rectFill, 20);
+    }
+    rect(paddle.x, paddle.y, paddle.w, paddle.h);
+    pop();
 }
 
 // displayBall()
@@ -259,7 +271,13 @@ function displayPaddle(paddle) {
 // Draws the ball on screen as a square
 function displayBall() {
   // Draw the ball
-  rect(ball.x, ball.y, ball.size, ball.size);
+  push();
+  angle +=.11;
+  rectMode(CENTER);
+  translate(ball.x, ball.y);
+  rotate(angle);
+  rect(0,0, ball.size, ball.size);
+  pop();
 }
 
 // resetBall()
@@ -292,11 +310,12 @@ function mousePressed() {
   playing = true;
 }
 
-function displayScore() {
-  push();
-  textAlign(CENTER, CENTER);
-  textSize(32);
-  text(leftPaddle.score, width / 4, height / 4);
-  text(rightPaddle.score, width * 3/4, height / 4);
-  pop();
-  }
+// Used to verify if the points updates accordingly
+// function displayScore() {
+//   push();
+//   textAlign(CENTER, CENTER);
+//   textSize(32);
+//   text(leftPaddle.score, width / 4, height / 4);
+//   text(rightPaddle.score, width * 3/4, height / 4);
+//   pop();
+//   }
