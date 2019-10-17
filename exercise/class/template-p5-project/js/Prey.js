@@ -44,17 +44,7 @@ handleWrapping() {
   }
 }
 
-handleEating(prey) {
-let d = dist(this.x,this.y,prey.x,prey.y);
-if (d < this.radius + prey.radius) {
-  this.health += this.healthGainPerEat;
-  this.health = constrain(this.health,0,this.maxHealth);
-  prey.health -= this.healthGainPerEat;
-  if (prey.health < 0) {
-    prey.reset();
-  }
-}
-}
+
 display() {
   push();
   noStroke();
@@ -62,5 +52,11 @@ display() {
   this.radius = this.health;
   ellipse(this.x,this.y,this.radius * 2);
   pop();
+}
+
+reset(){
+  if (this.health <= 0) {
+
+  }
 }
 }

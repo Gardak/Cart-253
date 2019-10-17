@@ -18,14 +18,12 @@ let bgColor = 0;
 let rectFill = 0;
 let fgColor = 255;
 
-// BALL
-
 // A ball object with the properties of
 // position, size, velocity, and speed
 let ball = {
   x: 0,
   y: 0,
-  size: 20,
+  size: 50,
   vx: 0,
   vy: 0,
   speed: 5
@@ -65,16 +63,27 @@ let rightPaddle = {
 
 // A variable to hold the beep sound we will play on bouncing
 let beepSFX;
+// A variable to hold the sound of scoring
+let meowSFX;
+
+// Variable for the images
+let cat;
+let galaxy;
+
 // A variable to turn the ball
 let angle = 0;
 // Know wich side to throw the ball
 let sideStart;
 
+
 // preload()
 //
 // Loads the beep audio for the sound of bouncing
 function preload() {
-  beepSFX = new Audio("assets/sounds/beep.wav");
+  beepSFX = new Audio("assets/sounds/bounce.mp3");
+  meowSFX = new Audio("assets/sounds/meow.mp3");
+  cat = loadImage("assets/images/cat.png")
+  galaxy = loadImage("assets/images/galaxy.jpg")
 }
 
 // setup()
@@ -112,7 +121,7 @@ function setupPaddles() {
 // See how tidy it looks?!
 function draw() {
   // Fill the background
-  background(bgColor);
+  image(galaxy,0,0,width,height)
 
   if (playing) {
     // If the game is in play, we handle input and move the elements around
@@ -196,11 +205,15 @@ function ballIsOutOfBounds() {
   if (ball.x < 0) {
     rightPaddle.score += 1;
     sideStart = "right";
+    meowSFX.currentTime = 0;
+    meowSFX.play();
     return(true);
   }
   else if (ball.x > width) {
     leftPaddle.score += 1;
     sideStart = "left";
+    meowSFX.currentTime = 0;
+    meowSFX.play();
     return(true);
   }
 }
@@ -277,11 +290,11 @@ function displayPaddle(paddle) {
 function displayBall() {
   // Draw the ball
   push();
-  angle +=.11;
-  rectMode(CENTER);
+  angle +=.05;
+  imageMode(CENTER);
   translate(ball.x, ball.y);
   rotate(angle);
-  rect(0,0, ball.size, ball.size);
+  image(cat,0,0, ball.size, ball.size);
   pop();
 }
 
