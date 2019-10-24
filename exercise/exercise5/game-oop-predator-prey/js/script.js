@@ -19,7 +19,8 @@ let bee;
 // Creates objects for the predator and three prey
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  tiger = new Predator(100, 100, 5, color(200, 200, 0), 40);
+  tiger = new Predator(200, 200, 5, color(200, 200, 0), 40, 87, 83, 65, 68);
+  chtulu = new Predator(100, 100, 5, color(30,200,30), 40, 38, 40, 37, 39);
   antelope = new Prey(100, 100, 10, color(255, 100, 10), 50);
   zebra = new Prey(100, 100, 8, color(255, 255, 255), 60);
   bee = new Prey(100, 100, 20, color(255, 255, 0), 10);
@@ -33,20 +34,26 @@ function draw() {
   background(0);
 
   // Handle input for the tiger
+  chtulu.handleInput();
   tiger.handleInput();
 
   // Move all the "animals"
+  chtulu.move();
   tiger.move();
   antelope.move();
   zebra.move();
   bee.move();
 
   // Handle the tiger eating any of the prey
+  chtulu.handleEating(antelope);
+  chtulu.handleEating(zebra);
+  chtulu.handleEating(bee);
   tiger.handleEating(antelope);
   tiger.handleEating(zebra);
   tiger.handleEating(bee);
 
   // Display all the "animals"
+  chtulu.display();
   tiger.display();
   antelope.display();
   zebra.display();
