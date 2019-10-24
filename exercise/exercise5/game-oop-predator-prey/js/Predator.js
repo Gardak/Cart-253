@@ -140,8 +140,11 @@ class Predator {
   // Draw the predator as an ellipse on the canvas
   // with a radius the same size as its current health.
   display() {
+    if (this.health <= 0) {
+      return
+    }
     // limit the size of the predators
-    constrain(this.radius, 10, this.maxHealth);
+    this.radius = constrain(this.radius, 10, this.maxHealth);
     push();
     imageMode(CENTER);
     noStroke();
