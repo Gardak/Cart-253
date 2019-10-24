@@ -33,8 +33,8 @@ function setup() {
   knightImg = loadImage("assets/images/knight.png")
 
   createCanvas(windowWidth, windowHeight);
-  mindflayer = new Predator(mindflayerImg, 200, 200, 9, 15, color(200, 200, 0), 60, 87, 83, 65, 68, 32);
-  beholder = new Predator(beholderImg, 100, 100, 4, 9, color(30,200,30), 100, 38, 40, 37, 39, 16);
+  mindflayer = new Predator(mindflayerImg, width/3, height/2, 9, 15, color(200, 200, 0), 60, 87, 83, 65, 68, 32);
+  beholder = new Predator(beholderImg, width*2/3, height/2, 4, 9, color(30,200,30), 100, 38, 40, 37, 39, 16);
   guard = new Prey(guardImg, 100, 100, 10, color(255, 100, 10), 50);
   peasant = new Prey(peasantImg, 100, 100, 8, color(255, 255, 255), 60);
   knight = new Prey(knightImg, 100, 100, 20, color(255, 255, 0), 30);
