@@ -10,7 +10,7 @@ class Predator {
   //
   // Sets the initial values for the Predator's properties
   // Either sets default values or uses the arguments provided
-  constructor(x, y, speed, sprintSpeed, fillColor, radius, up, down, left, right, sprint) {
+  constructor(monster, x, y, speed, sprintSpeed, fillColor, radius, up, down, left, right, sprint) {
     // Position
     this.x = x;
     this.y = y;
@@ -28,6 +28,7 @@ class Predator {
     // Display properties
     this.fillColor = fillColor;
     this.radius = this.health; // Radius is defined in terms of health
+    this.img = monster;
     // Input properties
     this.upKey = up;
     this.downKey = down;
@@ -36,6 +37,8 @@ class Predator {
     this.sprintKey = sprint;
     // Track the number of prey eaten
     this.preyEaten = 0;
+    // Represents how many prey was eaten
+    this.rage = 0;
   }
 
   // handleInput
@@ -45,7 +48,7 @@ class Predator {
   handleInput() {
     // Sprinting
     if (keyIsDown(this.sprintKey)) {
-    this.movement = this.sprintSpeed;
+      this.movement = this.sprintSpeed;
     }
     else {
       this.movement = this.speed;
@@ -125,7 +128,7 @@ class Predator {
       // Decrease prey health by the same amount
       prey.health -= this.healthGainPerEat;
       // Check if the prey died and reset it if so
-      if (prey.health < 0) {
+      if (prey.health <= 0) {
         prey.reset();
         this.preyEaten += 2;
       }
@@ -137,17 +140,26 @@ class Predator {
   // Draw the predator as an ellipse on the canvas
   // with a radius the same size as its current health.
   display() {
+    // limit the size of the predators
+    constrain(this.radius, 10, this.maxHealth);
+    push();
+    imageMode(CENTER);
+    noStroke();
+    this.radius = this.health;
+    image(this.img,this.x, this.y, this.radius * 2, this.radius * 2);
+    pop();
+    // Display a translucid circle growing by eating preys
     push();
     noStroke();
-    fill(this.fillColor);
-    this.radius = this.health;
-    ellipse(this.x, this.y, this.radius * 2);
+    fill(200,0,0,150);
+    this.rage = map(this.preyEaten, 0, 20, 0, this.radius);
+    ellipse(this.x, this.y,this.rage);
     pop();
-    // Display the number of prey eaten on the predator
-    push();
-    textAlign(CENTER,CENTER)
-    textSize(32);
-    text(this.preyEaten,this.x,this.y);
-    pop();
+    // // Display the number of prey eaten on the predator
+    // push();
+    // textAlign(CENTER,CENTER)
+    // textSize(32);
+    // text(this.preyEaten,this.x,this.y);
+    // pop();
   }
 }
