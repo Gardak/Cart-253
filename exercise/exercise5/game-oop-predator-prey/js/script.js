@@ -6,12 +6,12 @@
 // The predator loses health over time, so must keep eating to survive.
 
 // Our predator
-let tiger;
+let mindflayer;
 
 // The three prey
-let antelope;
-let zebra;
-let bee;
+let guard;
+let peasant;
+let knight;
 
 // setup()
 //
@@ -19,43 +19,43 @@ let bee;
 // Creates objects for the predator and three prey
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  tiger = new Predator(200, 200, 5, color(200, 200, 0), 40, 87, 83, 65, 68);
-  chtulu = new Predator(100, 100, 5, color(30,200,30), 40, 38, 40, 37, 39);
-  antelope = new Prey(100, 100, 10, color(255, 100, 10), 50);
-  zebra = new Prey(100, 100, 8, color(255, 255, 255), 60);
-  bee = new Prey(100, 100, 20, color(255, 255, 0), 10);
+  mindflayer = new Predator(200, 200, 9, 15, color(200, 200, 0), 30, 87, 83, 65, 68, 32);
+  chtulu = new Predator(100, 100, 4, 9, color(30,200,30), 80, 38, 40, 37, 39, 16);
+  guard = new Prey(100, 100, 10, color(255, 100, 10), 50);
+  peasant = new Prey(100, 100, 8, color(255, 255, 255), 60);
+  knight = new Prey(100, 100, 20, color(255, 255, 0), 10);
 }
 
 // draw()
 //
-// Handles input, movement, eating, and displaying for the system's objects
+// Handles input, moveguardt, eating, and displaying for the system's objects
 function draw() {
   // Clear the background to black
   background(0);
 
-  // Handle input for the tiger
+  // Handle input for the mindflayer
   chtulu.handleInput();
-  tiger.handleInput();
+  mindflayer.handleInput();
 
   // Move all the "animals"
   chtulu.move();
-  tiger.move();
-  antelope.move();
-  zebra.move();
-  bee.move();
+  mindflayer.move();
+  guard.move();
+  peasant.move();
+  knight.move();
 
-  // Handle the tiger eating any of the prey
-  chtulu.handleEating(antelope);
-  chtulu.handleEating(zebra);
-  chtulu.handleEating(bee);
-  tiger.handleEating(antelope);
-  tiger.handleEating(zebra);
-  tiger.handleEating(bee);
+  // Handle the mindflayer eating any of the prey
+  chtulu.handleEating(guard);
+  chtulu.handleEating(peasant);
+  chtulu.handleEating(knight);
+  mindflayer.handleEating(guard);
+  mindflayer.handleEating(peasant);
+  mindflayer.handleEating(knight);
 
   // Display all the "animals"
   chtulu.display();
-  tiger.display();
-  antelope.display();
-  zebra.display();
-  bee.display();
+  mindflayer.display();
+  guard.display();
+  peasant.display();
+  knight.display();
 }
