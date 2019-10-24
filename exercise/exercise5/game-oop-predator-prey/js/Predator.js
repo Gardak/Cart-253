@@ -31,6 +31,8 @@ class Predator {
     this.downKey = down;
     this.leftKey = left;
     this.rightKey = right;
+    // Track the number of prey eaten
+    this.preyEaten = 0;
   }
 
   // handleInput
@@ -115,6 +117,7 @@ class Predator {
       // Check if the prey died and reset it if so
       if (prey.health < 0) {
         prey.reset();
+        this.preyEaten += 1;
       }
     }
   }
