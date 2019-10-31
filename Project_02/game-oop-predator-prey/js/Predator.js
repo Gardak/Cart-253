@@ -27,10 +27,11 @@ class Predator {
     this.fillColor = fillColor;
     this.radius = this.health; // Radius is defined in terms of health
     // Input properties
-    this.upKey = UP_ARROW;
-    this.downKey = DOWN_ARROW;
-    this.leftKey = LEFT_ARROW;
-    this.rightKey = RIGHT_ARROW;
+    this.upKey = 38;
+    this.downKey = 40;
+    this.leftKey = 37;
+    this.rightKey = 39;
+    this.protonPack = 32;
   }
 
   // handleInput
@@ -104,9 +105,9 @@ class Predator {
   // the predator's. If the prey dies, it gets reset.
   handleEating(prey) {
     // Calculate distance from this predator to the prey
-    let d = dist(this.x, this.y, prey.x, prey.y);
+    let d = dist(this.x + 100, this.y, prey.x, prey.y);
     // Check if the distance is less than their two radii (an overlap)
-    if (d < this.radius + prey.radius) {
+    if (d <  prey.radius) {
       // Increase predator health and constrain it to its possible range
       this.health += this.healthGainPerEat;
       this.health = constrain(this.health, 0, this.maxHealth);
@@ -117,6 +118,20 @@ class Predator {
         prey.reset();
       }
     }
+  }
+
+  fireProton(){
+    push();
+    noStroke();
+    rectMode(CENTER);
+    if (keyIsDown(32)) {
+      for (let i = 0; i < 120; i++){
+        fill(random(255),random(255),random(255));
+        triangle(this.x, this.y,this.x + 100, this.y + 10 ,this.x + 100, this.y - 10);
+        ellipse()
+      }
+    }
+    pop();
   }
 
   // display
