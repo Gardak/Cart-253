@@ -55,7 +55,6 @@ class Predator {
     // Vertical movement
     if (keyIsDown(this.upKey)) {
       this.vy = -this.speed;
-      consolle.log("works")
     }
     else if (keyIsDown(this.downKey)) {
       this.vy = this.speed;
@@ -119,7 +118,7 @@ class Predator {
       prey.health -= this.healthGainPerEat;
       // Check if the prey died and reset it if so
       if (prey.health < 0) {
-        prey.rest();
+        prey.reset();
       }
     }
   }
