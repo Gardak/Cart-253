@@ -31,7 +31,7 @@ class Predator {
     this.fillColor = fillColor;
     this.radios = this.health; // Radius is defined in terms of health
     // Input properties
-    this.appKey = UP_ARROW;
+    this.upKey = UP_ARROW;
     this.downKey = DOWN_ARROW;
     this.leftKey = LEFT_ARROW;
     this.rightKey = RIGHT_ARROW;
@@ -44,20 +44,21 @@ class Predator {
   handleInput() {
     // Horizontal movement
     if (keyIsDown(this.leftKey)) {
-      this.vx += -this.speed;
+      this.vx = -this.speed;
     }
     else if (keyIsDown(this.rightKey)) {
-      this.vx += this.speed;
+      this.vx = this.speed;
     }
     else {
       this.vx = 0;
     }
     // Vertical movement
     if (keyIsDown(this.upKey)) {
-      this.vy += -this.speed;
+      this.vy = -this.speed;
+      consolle.log("works")
     }
     else if (keyIsDown(this.downKey)) {
-      this.vy += this.speed;
+      this.vy = this.speed;
     }
     else {
       this.vy = 0;
