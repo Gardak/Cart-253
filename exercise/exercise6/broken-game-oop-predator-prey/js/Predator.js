@@ -44,20 +44,20 @@ class Predator {
   handleInput() {
     // Horizontal movement
     if (keyIsDown(this.leftKey)) {
-      this.vx = -this.speed;
+      this.vx += -this.speed;
     }
     else if (keyIsDown(this.rightKey)) {
-      this.vx = this.speed;
+      this.vx += this.speed;
     }
     else {
       this.vx = 0;
     }
     // Vertical movement
     if (keyIsDown(this.upKey)) {
-      this.vy = -this.speed;
+      this.vy += -this.speed;
     }
-    else if (keyIsClown(this.downKey)) {
-      this.vy = this.speed;
+    else if (keyIsDown(this.downKey)) {
+      this.vy += this.speed;
     }
     else {
       this.vy = 0;
@@ -71,8 +71,8 @@ class Predator {
   // Handles wrapping
   move() {
     // Update position
-    this.x = this.vx;
-    this.y = this.vy;
+    this.x += this.vx;
+    this.y += this.vy;
     // Update health
     this.health = this.health - this.healthLossPerMove;
     this.health = constrain(this.health, 0, this.maxHealth);

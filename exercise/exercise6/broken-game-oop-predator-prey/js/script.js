@@ -26,10 +26,10 @@ let bee;
 // Creates objects for the predator and three prey
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  tiger = new Predator(100, 100, 5, color(200, 200, 0), 40);
-  antelope = new Prey(100, 100, color(255, 100, 10), 50);
-  zebra = new Prey(100, 8, color(255, 255, 255), 60);
-  bee = new Prey(100, 100, 20, color(255, 255, 0), 10);
+  tiger = new Predator(random(width), random(height), 5, color(200, 200, 0), 40);
+  antelope = new Prey(random(width), random(height), color(255, 100, 10), 50);
+  zebra = new Prey(random(width), random(height), color(255, 255, 255), 60);
+  bee = new Prey(random(width), random(height), 20, color(255, 255, 0), 10);
 }
 
 // draw()
@@ -40,6 +40,7 @@ function draw() {
   background(0);
 
   // Handle input for the tiger
+  tiger.handleInput()
 
   // Move all the "animals"
   tiger.move();
