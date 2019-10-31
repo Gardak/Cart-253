@@ -1,22 +1,26 @@
 
-let mySquare1;
-let mySquare2;
+let shapes = [];
+let numShapes = 200;
 
 function setup() {
   createCanvas(windowWidth,windowHeight);
-  mySquare1 = new Square(random(0,width),random(0,height),100);
-  mySquare2 = new Square(random(0,width),random(0,height),100);
-  myCircle1 = new Circle(random(0,width),random(0,height),100);
 
+  for (let i = 0; i < numShapes; i++) {
+    let shapeX = random(0,width);
+    let shapeY = random(0,height);
+    let shapeSize = random(50,150);
+    let newSquare = new Square(shapeX,shapeY,shapeSize);
+    shapes.push(newSquare);
+    let newCircle =new Circle(random(0,width),random(0,height),100);
+    shapes.push(newCircle);
+  }
 }
 
 function draw() {
   background(255);
-  mySquare1.update();
-  mySquare2.update();
-  myCircle1.update();
-  mySquare1.display();
-  mySquare2.display();
-  myCircle1.display();
+  for (let i = 0; i < numShapes; i++){
+    shapes[i].update();
+    shapes[i].display();
+  }
 
 }
