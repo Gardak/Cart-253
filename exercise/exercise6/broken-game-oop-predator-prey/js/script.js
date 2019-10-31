@@ -43,10 +43,10 @@ function draw() {
   tiger.handleInput()
 
   // Move all the "animals"
-  // tiger.move();
-  // antelope.move();
-  // zebra.move();
-  // bee.move();
+  tiger.move();
+  antelope.move();
+  zebra.move();
+  bee.move();
 
   // Handle the tiger eating any of the prey
   tiger.handleEating(antelope);
