@@ -5,7 +5,7 @@ class Circle extends Shape {
 
   update(){
     super.update();
-    this.size += random(-5,5);
+    this.size += random(-50,50);
   }
 
   display() {
