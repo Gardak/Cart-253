@@ -1,4 +1,4 @@
-  // Missiles
+  // Trap
   //
   //// Prey
   //
@@ -6,7 +6,7 @@
   // on screen based on a noise() function. It can move around
   // the screen and be consumed by Predator objects.
 
-  class Missiles {
+  class Trap {
 
     // constructor
     //
@@ -19,8 +19,22 @@
       // speed
       this.speed = 5;
       // Display properties
-      this.fillColor = (199, 35, 6);
       this.radius = 10;
+      this.img = loadImage('assets/images/trap.png')
+    }
+
+    getTrap(buster){
+      if (buster.ghostCaught >= 20){
+        buster.numTrap += 1;
+        buster.ghostCaught -= 20;
+      }
+    }
+
+    handleImpact(boss){
+      let d = dist(this.x, this.y, boss.x, boss.y);
+      if (d < boss.radius){
+        boss.death();
+      }
     }
 
     // display
@@ -29,11 +43,6 @@
     // with a radius the same size as its current health.
     display() {
       noStroke();
-      fill(this.fillColor);
-      ellipse(this.x, this.y, this.radius * 2);
-    }
-
-    fire() {
-
-    }
+      image(img, this.x, this.y, this.radius);
   }
+}

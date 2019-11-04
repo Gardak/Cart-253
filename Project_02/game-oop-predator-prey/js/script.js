@@ -1,28 +1,25 @@
-// Predator-Prey Simulation
+// Predator-Ghost Simulation
 // by Pippin Barr
 //
-// Creates a predator and three prey (of different sizes and speeds)
-// The predator chases the prey using the arrow keys and consumes them.
+// Creates a predator and three Ghost (of different sizes and speeds)
+// The predator chases the Ghost using the arrow keys and consumes them.
 // The predator loses health over time, so must keep eating to survive.
 
 // Our predator
-let tiger;
+let player;
 
-// The three prey
-let antelope;
-let zebra;
-let bee;
+// The three Ghost
+let boo;
+
 
 // setup()
 //
 // Sets up a canvas
-// Creates objects for the predator and three prey
+// Creates objects for the predator and three Ghost
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  tiger = new Predator(100, 100, 5, color(200, 200, 0), 40);
-  antelope = new Prey(100, 100, 10, color(255, 100, 10), 50);
-  zebra = new Prey(100, 100, 8, color(255, 255, 255), 60);
-  bee = new Prey(100, 100, 20, color(255, 255, 0), 10);
+  player = new Buster( width /2, height * 4/5);
+  boo = new Ghost(100, 100, 0, 50);
 }
 
 // draw()
@@ -32,24 +29,17 @@ function draw() {
   // Clear the background to black
   background(0);
 
-  // Handle input for the tiger
-  tiger.handleInput();
-  tiger.fireProton();
+  // Handle input for the player
+  player.handleInput();
+  player.fireProton(boo);
 
   // Move all the "animals"
-  tiger.move();
-  antelope.move();
-  zebra.move();
-  bee.move();
+  player.move();
+  boo.move();
 
-  // Handle the tiger eating any of the prey
-  tiger.handleEating(antelope);
-  tiger.handleEating(zebra);
-  tiger.handleEating(bee);
+
 
   // Display all the "animals"
-  tiger.display();
-  antelope.display();
-  zebra.display();
-  bee.display();
+  player.display();
+  boo.display();
 }

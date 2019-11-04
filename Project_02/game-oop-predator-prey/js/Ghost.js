@@ -1,37 +1,39 @@
-// Prey
+// Ghost
 //
-// A class that represents a simple prey that moves
+// A class that represents a simple Ghost that moves
 // on screen based on a noise() function. It can move around
 // the screen and be consumed by Predator objects.
 
-class Prey {
+class Ghost {
 
   // constructor
   //
   // Sets the initial values for the Predator's properties
   // Either sets default values or uses the arguments provided
-  constructor(x, y, speed, fillColor, radius) {
+  constructor(x, y, speed, radius) {
     // Position
-    this.x = x;
-    this.y = y;
+    this.x = random(width);
+    this.y = random(height);
     // Velocity and speed
     this.vx = 0;
     this.vy = 0;
     this.speed = speed;
+    this.dmg = 5;
     // Time properties for noise() function
     this.tx = random(0, 1000); // To make x and y noise different
     this.ty = random(0, 1000); // we use random starting values
     // Health properties
     this.maxHealth = radius;
-    this.health = this.maxHealth; // Must be AFTER defining this.maxHealth
+    this.health = this.maxHealth;
+    this.img = loadImage('assets/images/ghost.png');
+    // Must be AFTER defining this.maxHealth
     // Display properties
-    this.fillColor = fillColor;
     this.radius = this.health;
   }
 
   // move
   //
-  // Sets velocity based on the noise() function and the Prey's speed
+  // Sets velocity based on the noise() function and the Ghost's speed
   // Moves based on the resulting velocity and handles wrapping
   move() {
     // Set velocity via noise()
@@ -49,7 +51,7 @@ class Prey {
 
   // handleWrapping
   //
-  // Checks if the prey has gone off the canvas and
+  // Checks if the Ghost has gone off the canvas and
   // wraps it to the other side if so
   handleWrapping() {
     // Off the left or right
@@ -59,25 +61,33 @@ class Prey {
     else if (this.x > width) {
       this.x -= width;
     }
-    // Off the top or bottom
+    // Bounce off the top or bottom
     if (this.y < 0) {
-      this.y += height;
+      this.y = this.y * (-1);
     }
     else if (this.y > height) {
-      this.y -= height;
+      this.y = this.y * (-1);
     }
+  }
+
+  hurtBuster(buster){
+    let d = dist(this.x, this.y, buster.x, buster.y);
+    if ( d < this.radius + buster.radius) {
+      buster.health -= this.dmg
+    }
+
   }
 
   // display
   //
-  // Draw the prey as an ellipse on the canvas
+  // Draw the Ghost as an ellipse on the canvas
   // with a radius the same size as its current health.
   display() {
     push();
     noStroke();
-    fill(this.fillColor);
     this.radius = this.health;
-    ellipse(this.x, this.y, this.radius * 2);
+    imageMode(CENTER);
+    image(this.img, this.x, this.y, this.radius, this.radius);
     pop();
   }
 
@@ -87,8 +97,8 @@ class Prey {
   // and radius back to default
   reset() {
     // Random position
-    this.x = random(0, width);
-    this.y = random(0, height);
+    this.x = width /2;
+    this.y = height *4/5;
     // Default health
     this.health = this.maxHealth;
     // Default radius
