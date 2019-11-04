@@ -29,6 +29,7 @@ function draw() {
   // Clear the background to black
   background(0);
 
+  if(player.healt < 0){
   // Handle input for the player
   player.handleInput();
   player.fireProton(boo);
@@ -37,9 +38,10 @@ function draw() {
   player.move();
   boo.move();
 
-
+  boo.hurtBuster(player);
 
   // Display all the "animals"
   player.display();
   boo.display();
+}
 }

@@ -12,8 +12,9 @@ class Buster {
   // Either sets default values or uses the arguments provided
   constructor(x, y) {
     // Position
+    // The player cannot go past the top and bottom of the screen
     this.x = x;
-    this.y = y;
+    this.y = constrain(y, 0, height);
     // Velocity and speed
     this.vx = 0;
     this.vy = 0;
@@ -23,13 +24,18 @@ class Buster {
     this.maxHealth = 100;
     this.health = this.maxHealth; // Must be AFTER defining this.maxHealth
     this.healthGainPerEat = 1;
-    this.radius = this.health; // Radius is defined in terms of health
+    this.radius = 50;
     this.ghostCaught = 0;
     // Input properties
     this.upKey = 87;
     this.downKey = 83;
     this.leftKey = 65;
     this.rightKey = 68;
+
+
+
+    this.healthBar =0;
+    this.healthFill =0;
   }
 
   // handleInput
@@ -84,14 +90,6 @@ class Buster {
     else if (this.x > width) {
       this.x -= width;
     }
-
-  }
-
-
-  // Takes a ghost object as an argument and checks if the Buster
-  // overlaps it. If so, reduces the ghost's health and increases
-  // the Buster'ss. If the ghost dies, it gets reset.
-  handleEating(ghost) {
   }
 
   fireProton(ghost){
@@ -128,11 +126,19 @@ class Buster {
   // with a radius the same size as its current health.
   display() {
     push();
-    noStroke();
-    this.radius = this.health;
-    ellipse(this.x, this.y, this.radius * 2);
+      noStroke();
+      this.radius = this.health;
+      ellipse(this.x, this.y, this.radius * 2);
     pop();
-    push();
 
+    this.healthBar = map(this.health, 0, 100, 0, width /2);
+    this.healthFill = map(this.health, 0, 100, 255, 0);
+
+    push();
+      fill(this.healthFill, 100, 30);
+      rectMode(CENTER, CENTER);
+      rect(width / 2, height - 40, this.healthBar, 20);
+    pop();
   }
+
 }
