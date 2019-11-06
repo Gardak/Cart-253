@@ -8,8 +8,9 @@
 // Our predator
 let player;
 
-// The three Ghost
-let boo;
+// The number of ghost in the first wave
+let numGhost = 10;
+let ghosts = [];
 
 let gameState = "INTRO";
 
@@ -22,9 +23,20 @@ function setup() {
 
   createCanvas(windowWidth, windowHeight);
   player = new Buster( width /2, height * 4/5);
-  boo = new Ghost(100, 100, 0, 50);
 
   logo = loadImage('assets/images/logo.png');
+  slime = loadImage('assets/images/slime.png');
+  ooze = loadImage('assets/images/ooze.png');
+
+  for (let i = 0; i < numGhost; i++){
+    let x = random(width);
+    let y = random(height);
+    let speed = random(4,7);
+    let radius = random(50,100);
+    let boo = new Ghost(x, y, speed, radius);
+
+    ghosts.push(boo);
+  }
 
 }
 
@@ -40,38 +52,45 @@ function draw() {
         gameState = "GAME" ;
       }
 
-    } else if (gameState === "GAME" && player.health > 0) {
+    } else if (gameState === "GAME") {
 
       // Handle input for the player
       player.handleInput();
-      player.fireProton(boo);
+      player.fireProton(ghosts);
 
-      // Move all the "animals"
+      // Move all
       player.move();
-      boo.move();
 
-      boo.hurtBuster(player);
 
-      // Display all the "animals"
+      // Display all
       player.display();
-      boo.display();
-    } else if (gameState === "GAMEOVER") {
+
+      for (let i = 0; i < numGhost; i++){
+        ghosts[i].move();
+        ghosts[i].hurtBuster(player);
+        ghosts[i].display();
+      }
+
+      if (player.ghostCaught >= 10){
+        gameState = "BOSS";
+      }
+
+    } else if (gameState === "BOSS"){
+
+
+
+    } else {
 
       showGameOver();
 
       if (keyIsDown(32)){
         gameState = "INTRO" ;
       }
-
-
-    } else {
+    }
 
     }
 
-    // showGameOver()
-    //
-    // Display text about the game being over!
-    function showIntro() {
+  function showIntro() {
       textAlign(CENTER, CENTER);
 
       let introTitle = "Ghosts and Busters\n";
@@ -83,9 +102,6 @@ function draw() {
       instruction = instruction + "Left click to fire the proton pack\n";
       instruction = instruction + "Space to sprint";
 
-
-
-      // Display it in the centre of the screen
       push();
       textSize(100);
       strokeWeight(10);
@@ -114,18 +130,48 @@ function draw() {
     }
 
 
-    // showGameOver()
-    //
-    // Display text about the game being over!
-    function showGameOver() {
-      // Set up the text to display
-      let gameOverText = "GAME OVER\n"; // \n means "new line"
-      gameOverText = gameOverText + "You captured " + ghostCaught + " rebels\n";
-      gameOverText = gameOverText + "before you died.\nVader will not be happy"
-      // Display it in the centre of the screen
-      text(gameOverText, width / 2, height / 2);
-    }
+  function showGameOver() {
+      textAlign(CENTER, CENTER);
 
+      let gameOverTitle = "YOU GOT SLIMED\n";
+
+      let gameOverText = "Even if you captured " + player.ghostCaught + " ghosts\n";
+      gameOverText = gameOverText + "You flee the scene in TERROR";
+
+      let instruction = "--Press space for intro screen--";
+
+      imageMode(CORNER);
+      image(ooze, 0, 0, width);
+
+      push();
+      textSize(100);
+      strokeWeight(10);
+      stroke(47, 201, 0);
+      fill(200);
+      text(gameOverTitle, width / 2, height / 3);
+      pop();
+
+      push();
+      textSize(36);
+      strokeWeight(3);
+      stroke(200);
+      fill(47, 201, 0);
+      text(gameOverText, width / 2, height / 2);
+      pop();
+
+      push();
+      textSize(30);
+      noStroke();
+      fill(47, 201, 0);
+      text(instruction, width /2, height * 4/5);
+      pop();
+
+      imageMode(CENTER)
+      image(logo, width /5, height * 4/5, 300, 300);
+      tint(255, 166);
+      image(slime, width /5, height * 4/5, 300, 300);
+
+    }
 
 
 }
