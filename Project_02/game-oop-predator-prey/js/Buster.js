@@ -18,7 +18,8 @@ class Buster {
     // Velocity and speed
     this.vx = 0;
     this.vy = 0;
-    this.speed = 7;
+    this.speed = 0;
+    this.walk = 7
     this.sprint = 12;
     // Health properties
     this.maxHealth = 100;
@@ -63,6 +64,13 @@ class Buster {
     else {
       this.vy = 0;
     }
+
+    if(keyIsDown(32)){
+      this.speed = this.sprint;
+    } else {
+      this.speed = this.walk;
+    }
+
   }
 
   // move
@@ -112,7 +120,6 @@ class Buster {
         // Check if the ghost died and reset it if so
         if (ghost.health < 10) {
           this.ghostCaught +=1;
-          ghost.reset();
         }
       }
     }

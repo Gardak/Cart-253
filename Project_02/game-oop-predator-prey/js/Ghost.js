@@ -83,25 +83,15 @@ class Ghost {
   // Draw the Ghost as an ellipse on the canvas
   // with a radius the same size as its current health.
   display() {
-    push();
-    noStroke();
-    this.radius = this.health;
-    imageMode(CENTER);
-    image(this.img, this.x, this.y, this.radius, this.radius);
-    pop();
+    if (this.health > 0){
+      push();
+      noStroke();
+      this.radius = this.health;
+      imageMode(CENTER);
+      image(this.img, this.x, this.y, this.radius, this.radius);
+      pop();
+    }
   }
 
-  // reset
-  //
-  // Set the position to a random location and reset health
-  // and radius back to default
-  reset() {
-    // Random position
-    this.x = width /2;
-    this.y = height *4/5;
-    // Default health
-    this.health = this.maxHealth;
-    // Default radius
-    this.radius = this.health;
-  }
+
 }
