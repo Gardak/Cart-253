@@ -34,6 +34,7 @@ class Buster {
     this.rightKey = 68;
 
     this.img = loadImage('assets/images/ghostbuster.png');
+    this.beam = loadSound('assets/sounds/beam.mp3');
 
 
     this.healthBar =0;
@@ -119,16 +120,13 @@ class Buster {
       if (d <  ghost.radius + 10) {
         // Decrease ghost health by the same amount
         ghost.health -= this.dmg;
-        // Check if the ghost died and reset it if so
-        if (ghost.health === 10) {
-          this.ghostCaught +=1;
-        }
+
       }
     }
     pop();
   }
 
-  
+
 
   // display
   //

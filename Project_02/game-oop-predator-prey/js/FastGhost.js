@@ -9,25 +9,26 @@ constructor(speed, radius, vx, vy){
 }
 
 move(){
-  
+
   this.x += this.vx;
   this.y += this.vy;
 
+  this.handleWrapping();
 }
 
 handleWrapping(){
   if (this.x < 0) {
-    this.x = this.x * (-1);
+    this.vx = this.vx * (-1);
   }
   else if (this.x > width) {
-    this.x = this.x * (-1);
+    this.vx = this.vx * (-1);
   }
   // Bounce off the top or bottom
   if (this.y < 0) {
-    this.y = this.y * (-1);
+    this.vy = this.vy * (-1);
   }
   else if (this.y > height) {
-    this.y = this.y * (-1);
+    this.vy = this.vy * (-1);
   }
 }
 

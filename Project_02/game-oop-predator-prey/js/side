@@ -1,0 +1,28 @@
+if (player.ghostCaught > 8){
+  bossState = 1;
+}
+if (0 < bossState){
+  longinus.spawn();
+  bossState += 1;
+  console.log(bossState);
+} else if (bossState > 10) {
+
+  longinus.move();
+  longinus.hurtBuster(player);
+  longinus.display();
+
+  enemySpawn ++;
+
+  if(enemySpawn === 300){
+    for (let i = 0; i < 2; i++){
+      let speed = random(4,7);
+      let radius = random(50,100);
+      let vx = random(6,10);
+      let vy = random(6,10);
+      let boo = new FastGhost(speed, radius, vx, vy);
+
+      ghosts.push(boo);
+    }
+  enemySpawn = 0;
+  }
+--------------------------------------------------------

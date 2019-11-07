@@ -78,12 +78,9 @@ class Ghost {
 
   }
 
-  // display
-  //
-  // Draw the Ghost as an ellipse on the canvas
   // with a radius the same size as its current health.
   display() {
-    if (this.health >= 5){
+    if (this.health >= 10){
       push();
       noStroke();
       this.radius = this.health;
