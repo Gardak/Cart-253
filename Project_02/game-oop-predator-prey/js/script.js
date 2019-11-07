@@ -9,7 +9,7 @@
 let player;
 
 // The number of ghost in the first wave
-let numGhost = 10;
+let numGhost = 4;
 let ghosts = [];
 
 let gameState = "INTRO";
@@ -29,11 +29,18 @@ function setup() {
   ooze = loadImage('assets/images/ooze.png');
 
   for (let i = 0; i < numGhost; i++){
-    let x = random(width);
-    let y = random(height);
     let speed = random(4,7);
     let radius = random(50,100);
-    let boo = new Ghost(x, y, speed, radius);
+    let boo = new Ghost(speed, radius);
+
+    ghosts.push(boo);
+  }
+  for (let i = 0; i < numGhost; i++){
+    let speed = random(4,7);
+    let radius = random(50,100);
+    let vx = random(12,15);
+    let vy = random(12,15);
+    let boo = new FastGhost(speed, radius, vx, vy);
 
     ghosts.push(boo);
   }
@@ -53,10 +60,9 @@ function draw() {
       }
 
     } else if (gameState === "GAME") {
-
+      if (player.health > 0) {
       // Handle input for the player
       player.handleInput();
-      player.fireProton(ghosts);
 
       // Move all
       player.move();
@@ -66,29 +72,33 @@ function draw() {
       player.display();
 
       for (let i = 0; i < numGhost; i++){
+        if (ghosts[i].health > 5){
         ghosts[i].move();
         ghosts[i].hurtBuster(player);
         ghosts[i].display();
+        player.fireProton(ghosts[i]);
+      }
       }
 
-      if (player.ghostCaught >= 10){
-        gameState = "BOSS";
-      }
-
-    } else if (gameState === "BOSS"){
-
-
-
-    } else {
+      } else if (player.health <= 0){
 
       showGameOver();
 
-      if (keyIsDown(32)){
-        gameState = "INTRO" ;
-      }
-    }
 
     }
+
+  } else if (gameState === "BOSS"){
+    if (bossState < 0) {
+
+      boss.spawn();
+      bossState ++;
+
+    } else if (bossState > 240) {
+
+    }
+  }
+
+  }
 
   function showIntro() {
       textAlign(CENTER, CENTER);
@@ -138,7 +148,7 @@ function draw() {
       let gameOverText = "Even if you captured " + player.ghostCaught + " ghosts\n";
       gameOverText = gameOverText + "You flee the scene in TERROR";
 
-      let instruction = "--Press space for intro screen--";
+      let instruction = "--Refresh the page to restart--";
 
       imageMode(CORNER);
       image(ooze, 0, 0, width);
@@ -172,6 +182,3 @@ function draw() {
       image(slime, width /5, height * 4/5, 300, 300);
 
     }
-
-
-}

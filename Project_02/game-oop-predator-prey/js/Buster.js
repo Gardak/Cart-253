@@ -14,7 +14,7 @@ class Buster {
     // Position
     // The player cannot go past the top and bottom of the screen
     this.x = x;
-    this.y = constrain(y, 0, height);
+    this.y = y;
     // Velocity and speed
     this.vx = 0;
     this.vy = 0;
@@ -22,10 +22,10 @@ class Buster {
     this.walk = 7
     this.sprint = 12;
     // Health properties
-    this.maxHealth = 100;
+    this.maxHealth = 200;
     this.health = this.maxHealth; // Must be AFTER defining this.maxHealth
-    this.healthGainPerEat = 1;
-    this.radius = 50;
+    this.dmg = 1;
+    this.radius = 75;
     this.ghostCaught = 0;
     // Input properties
     this.upKey = 87;
@@ -33,6 +33,7 @@ class Buster {
     this.leftKey = 65;
     this.rightKey = 68;
 
+    this.img = loadImage('assets/images/ghostbuster.png');
 
 
     this.healthBar =0;
@@ -98,6 +99,7 @@ class Buster {
     else if (this.x > width) {
       this.x -= width;
     }
+    constrain(this.y, 0, height);
   }
 
   fireProton(ghost){
@@ -105,20 +107,20 @@ class Buster {
     if (mouseIsPressed) {
       strokeWeight(6);
       stroke(200, 0, 0);
-      line(this.x, this.y, mouseX + random(-5,5), mouseY + random(-5,5));
+      line(this.x, this.y - this.radius/2, mouseX + random(-5,5), mouseY + random(-5,5));
       strokeWeight(2);
       stroke(0, 68, 186);
-      line(this.x, this.y, mouseX + random(-10,10), mouseY + random(-10,10));
+      line(this.x, this.y - this.radius/2, mouseX + random(-10,10), mouseY + random(-10,10));
       stroke(random(255), random(255), random(255));
-      line(this.x, this.y, mouseX + random(-15,15), mouseY + random(-15,15));
+      line(this.x, this.y - this.radius/2, mouseX + random(-15,15), mouseY + random(-15,15));
       // Calculate distance from this Buster to the ghost
       let d = dist(mouseX, mouseY, ghost.x, ghost.y);
       // Check if the distance is less than their two radii (an overlap)
       if (d <  ghost.radius + 10) {
         // Decrease ghost health by the same amount
-        ghost.health -= this.healthGainPerEat;
+        ghost.health -= this.dmg;
         // Check if the ghost died and reset it if so
-        if (ghost.health < 10) {
+        if (ghost.health === 10) {
           this.ghostCaught +=1;
         }
       }
@@ -126,6 +128,7 @@ class Buster {
     pop();
   }
 
+  
 
   // display
   //
@@ -133,12 +136,11 @@ class Buster {
   // with a radius the same size as its current health.
   display() {
     push();
-      noStroke();
-      this.radius = this.health;
-      ellipse(this.x, this.y, this.radius * 2);
+      imageMode(CENTER);
+      image(this.img, this.x, this.y, this.radius, this.radius);
     pop();
 
-    this.healthBar = map(this.health, 0, 100, 0, width /2);
+    this.healthBar = map(this.health, 0, this.maxHealth, 0, width /2);
     this.healthFill = map(this.health, 0, 100, 255, 0);
 
     push();

@@ -10,7 +10,7 @@ class Ghost {
   //
   // Sets the initial values for the Predator's properties
   // Either sets default values or uses the arguments provided
-  constructor(x, y, speed, radius) {
+  constructor(speed, radius) {
     // Position
     this.x = random(width);
     this.y = random(height);
@@ -18,7 +18,7 @@ class Ghost {
     this.vx = 0;
     this.vy = 0;
     this.speed = speed;
-    this.dmg = 5;
+    this.dmg = 1;
     // Time properties for noise() function
     this.tx = random(0, 1000); // To make x and y noise different
     this.ty = random(0, 1000); // we use random starting values
@@ -73,7 +73,7 @@ class Ghost {
   hurtBuster(buster){
     let d = dist(this.x, this.y, buster.x, buster.y);
     if ( d < this.radius + buster.radius) {
-      buster.health -= this.dmg
+      buster.health -= this.dmg;
     }
 
   }
@@ -83,7 +83,7 @@ class Ghost {
   // Draw the Ghost as an ellipse on the canvas
   // with a radius the same size as its current health.
   display() {
-    if (this.health > 0){
+    if (this.health >= 5){
       push();
       noStroke();
       this.radius = this.health;
