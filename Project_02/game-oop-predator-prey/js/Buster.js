@@ -120,7 +120,7 @@ class Buster {
       if (d <  ghost.radius + 10) {
         // Decrease ghost health by the same amount
         ghost.health -= this.dmg;
-
+        ghost.kill();
       }
     }
     pop();

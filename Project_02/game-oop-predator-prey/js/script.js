@@ -24,9 +24,10 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   player = new Buster( width /2, height * 4/5);
 
-  logo = loadImage('assets/images/logo.png');
-  slime = loadImage('assets/images/slime.png');
-  ooze = loadImage('assets/images/ooze.png');
+  let logo = loadImage('assets/images/logo.png');
+  let slime = loadImage('assets/images/slime.png');
+  let ooze = loadImage('assets/images/ooze.png');
+  let crowd = loadImage('assets/images/crowd.png');
 
 
   for (let i = 0; i < numGhost; i++){
@@ -193,35 +194,32 @@ function setup() {
         let instruction = "--Refresh the page to restart--";
 
         imageMode(CORNER);
-        image(ooze, 0, 0, width);
+        image(crowd, 0, height, width);
 
         push();
         textSize(100);
         strokeWeight(10);
-        stroke(47, 201, 0);
-        fill(200);
-        text(gameOverTitle, width / 2, height / 3);
+        stroke(200,70,30);
+        fill(250);
+        text(endTitle, width / 2, height / 3);
         pop();
 
         push();
         textSize(36);
         strokeWeight(3);
-        stroke(200);
-        fill(47, 201, 0);
-        text(gameOverText, width / 2, height / 2);
+        stroke(250);
+        fill(200,70,30);
+        text(endText, width / 2, height / 2);
         pop();
 
         push();
         textSize(30);
         noStroke();
-        fill(47, 201, 0);
+        fill(200,70,30);
         text(instruction, width /2, height * 4/5);
         pop();
 
         imageMode(CENTER)
         image(logo, width /5, height * 4/5, 300, 300);
-        tint(255, 166);
-        image(slime, width /5, height * 4/5, 300, 300);
-
 
 }

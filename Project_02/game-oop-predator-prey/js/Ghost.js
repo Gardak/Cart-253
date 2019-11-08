@@ -78,6 +78,15 @@ class Ghost {
 
   }
 
+  kill(buster){
+    this.x = -200;
+    this.y = -200;
+    this.vx = 0;
+    this.vy = 0;
+    buster.ghostCaught ++;
+
+  }
+
   // with a radius the same size as its current health.
   display() {
     if (this.health >= 10){
