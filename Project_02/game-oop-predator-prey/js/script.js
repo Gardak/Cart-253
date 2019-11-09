@@ -11,6 +11,10 @@ let player;
 // The number of ghost in the first wave
 let numGhost = 4;
 let ghosts = [];
+let logo;
+let slime;
+let ooze;
+let crowd;
 
 let gameState = "INTRO";
 
@@ -24,10 +28,10 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   player = new Buster( width /2, height * 4/5);
 
-  let logo = loadImage('assets/images/logo.png');
-  let slime = loadImage('assets/images/slime.png');
-  let ooze = loadImage('assets/images/ooze.png');
-  let crowd = loadImage('assets/images/crowd.png');
+   logo = loadImage('assets/images/logo.png');
+   slime = loadImage('assets/images/slime.png');
+   ooze = loadImage('assets/images/ooze.png');
+   crowd = loadImage('assets/images/crowd.png');
 
 
   for (let i = 0; i < numGhost; i++){
