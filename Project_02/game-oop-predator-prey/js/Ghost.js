@@ -79,10 +79,8 @@ class Ghost {
   }
 
   kill(buster){
-    this.x = -200;
-    this.y = -200;
-    this.vx = 0;
-    this.vy = 0;
+    this.x = random(0,width);
+    this.y = random(0,height);
     buster.ghostCaught ++;
 
   }
