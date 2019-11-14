@@ -9,15 +9,17 @@ class Ball {
     this.y = y;
 
     // Velocity and speed
-    this.vx = Math.abs(x-targetX);
-    this.vy = Math.abs(y-targetY);
+    this.vx = 0;
+    this.vy = 0 ;
     this.speed = 5;
     this.dmg = 5;
     this.angle = 0;
+    this.dist = 0;
+    this.launched = false;
 
     // Display properties
     this.maxRadius = 50;
-    this.radius = 50;
+    this.radius = 0;
     this.color = color(176, 21, 7);
   }
 
@@ -31,21 +33,31 @@ class Ball {
 
   move(){
     this.display();
-    this.angle = tan((Math.abs(this.x-mouseX))/(Math.abs(this.y-mouseY)));
-    this.vx = this.speed * cos(this.angle);
-    this.vy = this.speed * sin(this.angle);
 
-    this.x += this.vx;
-    this.y += this.vy;
+
+    if (this.dist < 60){
+      this.x += this.vx;
+      this.y += this.vy;
+      this.dist++;
+      console.log(this.vx)
+    } else {
+      this.vx = 0;
+      this.vy = 0;
+      this.radius = 0;
+      this.dist = 0;
+      this.launched = false;
+    }
   }
 
-
-  handleWrapping() {
-
+  impact(){
+    this.radius += 0.5
+    this.launched = false;
   }
 
-  hurtBuster(buster){
-
+  launch(){
+    this.vx = -(this.x-mouseX)/60;
+    this.vy = -(this.y-mouseY)/60;
+    this.launched = true;
   }
 
   display(){

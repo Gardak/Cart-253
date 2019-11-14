@@ -1,10 +1,6 @@
 
 
-// Buster
-//
-// A class that represents a simple Buster
-// controlled by the arrow keys. It can move around
-// the screen and consume ghost objects to maintain its health.
+// Wizard
 
 class Wizard {
 
@@ -77,9 +73,12 @@ class Wizard {
 
 lauchFireBall(fireBall){
   if (mouseIsPressed){
-      this.fireBall.move(this);
-  } else if (this.fireBall.radius >= 50) {
-    this.fireBall.move();
+      this.fireBall.spawn(this);
+
+  } else if (this.fireBall.radius >= 50 && this.fireBall.launched === false) {
+    this.fireBall.launch();
+  } else if (this.fireBall.radius >= 50){
+  this.fireBall.move();
   }
 
 }
@@ -116,15 +115,7 @@ lauchFireBall(fireBall){
 
   }
 
-
-
-
-
-  // display
-  //
-  // Draw the Buster as an ellipse on the canvas
-  // with a radius the same size as its current health.
-  display() {
+display() {
     push();
       noStroke();
       fill(this.color);
