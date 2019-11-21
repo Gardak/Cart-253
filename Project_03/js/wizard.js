@@ -33,7 +33,7 @@ class Wizard {
     this.size = 50;
     this.color = color(60, 6, 186);
 
-    this.fireBall = new Ball();
+    this.ballType = 'fireBall';
 
   }
 
@@ -71,19 +71,6 @@ class Wizard {
 
   }
 
-lauchFireBall(fireBall){
-  if (mouseIsPressed){
-      this.fireBall.spawn(this);
-
-  } else if (this.fireBall.radius >= 50 && this.fireBall.launched === false) {
-    this.fireBall.launch();
-  } else if (this.fireBall.radius >= 50){
-  this.fireBall.move();
-  }
-
-}
-
-
   move() {
 
     // Update position
@@ -114,6 +101,33 @@ lauchFireBall(fireBall){
     }
 
   }
+
+
+  selectBallType(){
+    if (keyIsDown(49)){
+      this.ballType = fireBall;
+    } else if (keyIsDown(50)) {
+      this.ballType = iceShard;
+    } else if (keyIsDown(51)) {
+      this.ballType = thunderStrike;
+    }
+  }
+
+
+  launchBall(ball){
+    if (mouseIsPressed){
+      console.log(this.ballType)
+        ball.spawn(this);
+    } else if (ball.radius === ball.maxRadius && ball.launched === false ) {
+        ball.launch();
+        console.log('works')
+      } else if (ball.launched === true) {
+        ball.move();
+      } else if (ball.impacted === true) {
+        ball.impact();
+      }
+    }
+
 
 display() {
     push();

@@ -19,6 +19,8 @@ function setup() {
 
   createCanvas(windowWidth, windowHeight);
   player = new Wizard( width /2, height * 4/5);
+  fireBall = new FireBall();
+  iceShard = new IceShard();
 }
 
   function draw() {
@@ -33,15 +35,18 @@ function setup() {
       }
 
     } else if (gameState === "GAME") {
-      player.handleMovement();
-      player.move();
-      player.display();
-      player.lauchFireBall();
+        player.handleMovement();
+        player.move();
+        player.display();
+        player.selectBallType();
+        player.launchBall(player.ballType);
+
     }
 
-
-
   }
+
+
+
 
   function showIntro() {
       textAlign(CENTER, CENTER);
