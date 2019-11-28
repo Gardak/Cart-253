@@ -10,6 +10,8 @@ let player;
 
 let gameState = "INTRO";
 
+let ratNum = 2;
+let ratPack = [];
 
 // setup()
 //
@@ -18,14 +20,26 @@ let gameState = "INTRO";
 function setup() {
 
   createCanvas(windowWidth, windowHeight);
-  player = new Wizard( width /2, height * 4/5);
   fireBall = new FireBall();
   iceShard = new IceShard();
+  thunderStrike = new ThunderStrike();
+  player = new Wizard( width /2, height * 4/5);
+
+
+  for (i = 0; i < ratNum; i++){
+
+    let x = random( 100, width - 100);
+    let y = random( 100,height - 100);
+
+        let rat = new Rat(x, y);
+        ratPack.push(rat);
+  }
 }
+
 
   function draw() {
 
-  background(110, 64, 37);
+  background(100);
 
     if (gameState === "INTRO") {
 
@@ -39,7 +53,13 @@ function setup() {
         player.move();
         player.display();
         player.selectBallType();
-        player.launchBall(player.ballType);
+        player.launchBall(player.ballType,ratPack);
+
+        for (let i = 0; i < ratNum; i++){
+        ratPack[i].move();
+        ratPack[i].hurtPlayer(player);
+        ratPack[i].display();
+      }
 
     }
 

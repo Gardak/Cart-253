@@ -31,9 +31,11 @@ class Wizard {
     this.healthBar =0;
     this.healthFill =0;
     this.size = 50;
-    this.color = color(60, 6, 186);
+    this.img = loadImage('assets/images/Mordak.png');
+    this.imgCharge = loadImage('assets/images/MordakCharge.png');
 
-    this.ballType = 'fireBall';
+    this.enemyKilled = 0;
+    this.ballType = fireBall;//-----------------------------------------------
 
   }
 
@@ -104,6 +106,7 @@ class Wizard {
 
 
   selectBallType(){
+
     if (keyIsDown(49)){
       this.ballType = fireBall;
     } else if (keyIsDown(50)) {
@@ -114,35 +117,39 @@ class Wizard {
   }
 
 
-  launchBall(ball){
+  launchBall(ball,enemies){
     if (mouseIsPressed){
-      console.log(this.ballType)
         ball.spawn(this);
-    } else if (ball.radius === ball.maxRadius && ball.launched === false ) {
+        ball.effect = 0;
+    } else if (ball.radius === ball.maxRadius && ball.launched === false && ball.impacted === false) {
         ball.launch();
         console.log('works')
-      } else if (ball.launched === true) {
+      } else if (ball.launched === true && ball.impacted === false) {
         ball.move();
-      } else if (ball.impacted === true) {
-        ball.impact();
+      } else if (ball.launched === false && ball.impacted === true) {
+        ball.impact(enemies,player);
+        console.log('works')
+
       }
     }
 
 
 display() {
-    push();
-      noStroke();
-      fill(this.color);
-      rectMode(CENTER);
-      rect(this.x, this.y, 50, 50);
-    pop();
+  push();
+rectMode(CENTER, CENTER);
+  if(mouseIsPressed){
+    image(this.imgCharge, this.x, this.y, this.radius, this.radius);
 
+  } else {
+    image(this.img, this.x, this.y, this.radius, this.radius);
+  }
+pop();
     this.healthBar = map(this.health, 0, this.maxHealth, 0, width /2);
     this.healthFill = map(this.health, 0, 100, 255, 0);
 
     push();
       fill(this.healthFill, 100, 30);
-      rectMode(CENTER, CENTER);
+      rectMode(CENTER);
       rect(width / 2, height - 40, this.healthBar, 20);
     pop();
   }

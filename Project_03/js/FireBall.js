@@ -3,29 +3,38 @@ class FireBall extends Ball{
 
   constructor(){
     super();
-    this.burnRadius = 500;
-    this.burn = 0;
-    this.burnTime = 0;
+    this.effectRadius = 500;
+    this.effect = 0;
+    this.effectTime = 120;
     this.color = color(176,21,7);
+    this.dmg = 10;
+
     }
 
-impact(enemy){
-  super.display();
-  // super.dmgEnemy(enemy);
+impact(enemies,player){
+  this.display();
   this.vx = 0;
   this.vy = 0;
 
-  if (this.burn < this.burnTime){
+  if (this.effect < this.effectTime){
 
+    enemies.forEach(enemy => this.dmgEnemy(enemy,player));
     this.radius += this.chargeSpeed;
-    this.radius = constrain(this.radius, 0, this.burnRadius);
-    this.burn++;
+    this.radius = constrain(this.radius, 0, this.effectRadius);
+    this.effect++;
 
   } else {
     this.radius = 0;
     this.impacted = false;
-    this.burn = 0;
+    this.effect = 0;
   }
 }
 
+display(){
+  push();
+  noStroke();
+  fill(this.color);
+  ellipse( this.x, this.y, this.radius, this.radius);
+  pop();
+}
 }

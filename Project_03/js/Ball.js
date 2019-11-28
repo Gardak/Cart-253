@@ -11,14 +11,13 @@ class Ball {
     // Velocity and speed
     this.vx = 0;
     this.vy = 0 ;
-    this.speed = 5;
+    this.ballSpeed = 45;
     this.dmg = 5;
     this.angle = 0;
     this.enemyDist = 0;
     this.launched = false;
     this.impacted = false;
 
-    this.dmg = 1;
 
     // Display properties
     this.maxRadius = 60;
@@ -35,13 +34,14 @@ class Ball {
     this.radius = constrain(this.radius, 0, this.maxRadius);
     this.launched = false;
     this.impacted = false;
+    this.enemyDist = 0;
   }
 
   move(){
     this.display();
 
 
-    if (this.enemyDist < 60){
+    if (this.enemyDist < this.ballSpeed){
       this.x += this.vx;
       this.y += this.vy;
       this.enemyDist++;
@@ -57,18 +57,30 @@ class Ball {
   }
 
   launch(){
-    this.vx = -(this.x-mouseX)/60;
-    this.vy = -(this.y-mouseY)/60;
+    this.vx = -(this.x-mouseX) / this.ballSpeed;
+    this.vy = -(this.y-mouseY) / this.ballSpeed;
     this.launched = true;
   }
 
-  dmgEnemy(enemy){
-  if (dist(this.x,this.y,enemy.x,enemy.y) <= this.radius + enemy.size){
-    enemy.health -= this.dmg
-    if(enemy.health <= 0){
-      enemy.kill();
+  freezeEnemy(enemy,player){
+
+    let d = dist(this.x, this.y, enemy.x, enemy.y);
+    if ( d < this.radius + enemy.size/2) {
+      enemy.health -= this.dmg;
+      enemy.isFrozen = true;
     }
   }
+
+  dmgEnemy(enemy,player){
+
+    let d = dist(this.x, this.y, enemy.x, enemy.y);
+
+    if ( d < this.radius + enemy.size/2) {
+      enemy.health -= this.dmg;
+      if(enemy.health <= 0){
+        enemy.kill(player);
+      }
+    }
   }
 
   spawnDisplay(){
@@ -79,11 +91,4 @@ class Ball {
     pop();
   }
 
-  display(){
-    push();
-    noStroke();
-    fill(this.color);
-    ellipse( this.x, this.y, this.radius, this.radius);
-    pop();
-  }
 }
