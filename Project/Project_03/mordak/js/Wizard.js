@@ -32,7 +32,7 @@ class Wizard {
     this.healthFill =0;
     this.size = 50;
     this.img = loadImage('assets/images/Mordak.png');
-    this.imgCharge = loadImage('assets/images/MordakCharge.png');
+    this.imgCharge = loadImage('assets/images/mordakCharge.png');
 
     this.enemyKilled = 0;
     this.ballType = fireBall;//-----------------------------------------------
