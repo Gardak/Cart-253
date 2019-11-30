@@ -78,6 +78,7 @@ function setup() {
 
       let instruction = "WASD to move around\n";
       instruction = instruction + "Left click to launch a fire ball\n";
+      instruction = instruction + "1, 2, 3 to choose spell\n";
 
       push();
       textSize(100);
