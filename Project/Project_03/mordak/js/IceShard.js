@@ -4,6 +4,7 @@ class IceShard extends Ball{
 
   constructor(){
     super();
+    this.effectRadius = 500;
     this.color = color(6, 61, 191)
     this.effect = 0;
     this.effectTime = 30;
@@ -17,7 +18,7 @@ class IceShard extends Ball{
           this.vy = 0;
 
           if (this.effect < this.effectTime){
-            this.radius = 300;
+            this.radius = this.effectRadius;
             push();
             noStroke();
             fill(this.color)

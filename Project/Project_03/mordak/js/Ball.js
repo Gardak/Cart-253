@@ -62,6 +62,12 @@ class Ball {
     this.launched = true;
   }
 
+  launchEnemy(player){
+    this.vx = -(this.x-player.x) / this.ballSpeed;
+    this.vy = -(this.y-player.y) / this.ballSpeed;
+    this.launched = true;
+  }
+
   freezeEnemy(enemy,player){
 
     let d = dist(this.x, this.y, enemy.x, enemy.y);

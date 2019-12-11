@@ -123,13 +123,10 @@ class Wizard {
         ball.effect = 0;
     } else if (ball.radius === ball.maxRadius && ball.launched === false && ball.impacted === false) {
         ball.launch();
-        console.log('works')
       } else if (ball.launched === true && ball.impacted === false) {
         ball.move();
       } else if (ball.launched === false && ball.impacted === true) {
         ball.impact(enemies,player);
-        console.log('works')
-
       }
     }
 

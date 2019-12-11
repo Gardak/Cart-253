@@ -1,31 +1,26 @@
 
-class Rat {
+class Rat extends Enemy {
 
   constructor( x, y){
-
+    super();
+// Placement
     this.x = x;
     this.y = y;
 
-    this.vx = 0;
-    this.vy = 0;
-    this.tx = random(0,100);
-    this.ty = random(0,100);
-    this.speed = 8;
-    this.frozenspeed = 2;
-
+// Interaction propreties
     this.dmg = 2;
-
     this.maxHealth = 10;
     this.health = this.maxHealth;
-    this.healthBar = 0;
-    this.healthFill = 0;
-    this.frozen = 0;
 
+// Display propreties
     this.size = 50 ;
     this.img = loadImage('assets/images/rat.png');
+    this.imgDead = loadImage('assets/images/dead_rat.png');
 
   }
 
+
+// move in a random pattern
   move() {
       this.vx = map(noise(this.tx), 0, 1, -this.speed, this.speed);
       this.vy = map(noise(this.ty), 0, 1, -this.speed, this.speed);
@@ -39,6 +34,8 @@ class Rat {
       this.handleWrapping();
     }
 
+
+// Wrap around the screen
     handleWrapping() {
 
         if (this.x < 0) {
@@ -55,40 +52,4 @@ class Rat {
           this.y = this.y * (-1);
         }
       }
-
-freezeEnemy(){
-  if (this.frozen > 0){
-    this.frozen -= 1;
-  }
-}
-
-  hurtPlayer(player){
-    let d = dist(this.x, this.y, player.x, player.y);
-    if ( d < this.size + player.size) {
-      player.health -= this.dmg;
-    }
-  }
-
-  kill(player){
-    this.x = random(0,width);
-    this.y = random(0,height);
-    player.enemyKilled ++;
-    this.health = this.maxHealth
-  }
-
-display(){
-  if (this.frozen > 0){
-    push();
-    filter(INVERT);
-    rectMode(CENTER);
-
-    image(this.img, this.x, this.y, this.size, this.size);
-    pop();
-} else{
-  rectMode(CENTER);
-  image(this.img, this.x, this.y, this.size, this.size);
-
-}
-  }
-
 }
