@@ -1,10 +1,4 @@
-// Ghostbuster-Ghost Simulation
-// by Alex Lorrain
-//
-// Creates a Ghostbuster and ghosts chasing each other
-// Once the first wave of ghost is cleared
 
-// Our Hero
 let player;
 
 
@@ -13,10 +7,8 @@ let gameState = "INTRO";
 let ratNum = 2;
 let ratPack = [];
 
-// setup()
-//
-// Sets up a canvas
-// Creates objects for the predator and three Ghost
+
+
 function setup() {
 
   createCanvas(windowWidth, windowHeight);
